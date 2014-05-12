@@ -5,9 +5,10 @@ import java.util.List;
 
 import ranger.item.Item;
 import ranger.name.Name;
+import ranger.name.Named;
 
 
-public class Location {
+public class Location implements Named {
 	
 	public String describe() {
 		return description;
@@ -43,11 +44,17 @@ public class Location {
 		features.add(f);
 	}
 	
-	public Location(String description) {
+	public Name getName() {
+		return name;
+	}
+	
+	public Location(Name name, String description) {
+		this.name = name;
 		this.description = description;
 		features = new LinkedList<>();
 	}
 	
+	private Name name;
 	private String description;
 	private List<Feature> features;
 }

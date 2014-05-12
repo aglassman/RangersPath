@@ -11,7 +11,7 @@ public class LookCommand implements Command {
 	}
 
 	public void execute(Game game, String[] words, String directObject) {
-		System.out.println(game.getTime().describeTimeOfDay());
+		System.out.print(game.getTime().describeTimeOfDay() + " ");
 		
 		Location location = game.getPlayerLocation();
 		System.out.println(location.describe());
