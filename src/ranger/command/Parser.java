@@ -31,6 +31,8 @@ public class Parser {
 		registerCommand(new InventoryCommand());
 		registerCommand(new HealthCommand());
 		registerCommand(new EatCommand());
+		registerCommand(new TimeCommand());
+		registerCommand(new WaitCommand());
 	}
 	
 	private Game game;

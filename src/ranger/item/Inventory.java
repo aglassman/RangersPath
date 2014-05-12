@@ -22,10 +22,8 @@ public class Inventory {
 	}
 	
 	public Item getItem(String name) {
-		name = name.toLowerCase();
-		
 		for (Item i : items) {
-			if (i.name.toLowerCase().equals(name))
+			if (i.name.equals(name))
 				return i;
 		}
 		return null;
