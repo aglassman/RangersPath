@@ -17,7 +17,7 @@ public class Parser {
 	public void parse(String input) {
 		String[] words = input.split(" ");
 		if (words.length > 0 && keywords.containsKey(words[0])) {
-			keywords.get(words[0]).execute(game);
+			keywords.get(words[0]).execute(game, words);
 		} else {
 			System.out.println("You can't do that.");
 		}
@@ -29,6 +29,8 @@ public class Parser {
 
 		registerCommand(new Quit());
 		registerCommand(new InventoryCommand());
+		registerCommand(new HealthCommand());
+		registerCommand(new EatCommand());
 	}
 	
 	private Game game;

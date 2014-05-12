@@ -15,6 +15,22 @@ public class Inventory {
 		items.add(i);
 	}
 	
+	public void reduceServing(Food food) {
+		food.consume();
+		if (food.getServings() == 0)
+			items.remove(food);
+	}
+	
+	public Item getItem(String name) {
+		name = name.toLowerCase();
+		
+		for (Item i : items) {
+			if (i.name.toLowerCase().equals(name))
+				return i;
+		}
+		return null;
+	}
+	
 	public Inventory() {
 		items = new LinkedList<>();
 	}
