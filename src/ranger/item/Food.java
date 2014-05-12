@@ -4,12 +4,6 @@ import ranger.name.FoodName;
 
 public class Food extends Item {
 	
-	public String toString() {
-		return servings > 1 
-				? servings + " servings of " + name.basic()
-				: "A serving of " + name;
-	}
-	
 	public int getServings() {
 		return servings;
 	}
