@@ -1,10 +1,12 @@
 package ranger.item;
 
+import ranger.name.FoodName;
+
 public class Food extends Item {
 	
 	public String toString() {
 		return servings > 1 
-				? servings + " servings of " + name
+				? servings + " servings of " + name.basic()
 				: "A serving of " + name;
 	}
 	
@@ -24,8 +26,9 @@ public class Food extends Item {
 		return foodValue;
 	}
 	
-	public Food(String name, int foodValue, int servings) {
-		super(name);
+	public Food(String foodName, int foodValue, int servings) {
+		super(new FoodName(foodName));
+		((FoodName)name).setFood(this);
 		this.foodValue = foodValue;
 		this.servings = servings;
 	}

@@ -1,17 +1,17 @@
 package ranger.item;
 
-public class Item {
-	public String toString() {
+import ranger.name.Name;
+import ranger.name.Named;
+
+public class Item implements Named {
+	
+	public Name getName() {
 		return name;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public Item(String name) {
+	public Item(Name name) {
 		this.name = name;
 	}
 	
-	protected final String name;
+	protected final Name name;
 }

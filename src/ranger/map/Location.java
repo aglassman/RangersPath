@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ranger.item.Item;
+import ranger.name.Name;
 
 
 public class Location {
@@ -35,11 +36,7 @@ public class Location {
 	}
 	
 	public Feature getFeature(String name) {
-		for (Feature f : features) {
-			if (f.getName().toLowerCase().equals(name.toLowerCase()))
-				return f;
-		}
-		return null;
+		return Name.getByName(features, name);
 	}
 	
 	public void addFeature(Feature f) {

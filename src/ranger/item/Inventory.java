@@ -2,6 +2,8 @@ package ranger.item;
 
 import java.util.LinkedList;
 
+import ranger.name.Name;
+
 public class Inventory {
 	public Iterable<Item> getItems() {
 		return items;
@@ -29,7 +31,7 @@ public class Inventory {
 	}
 
 	public void addServings(Food food) {
-		Item otherFood = getItem(food.name);
+		Item otherFood = getItem(food.name.basic().toLowerCase());
 		if (otherFood == null || !(otherFood instanceof Food)) {
 			items.add(food);
 		} else {
@@ -38,11 +40,7 @@ public class Inventory {
 	}
 	
 	public Item getItem(String name) {
-		for (Item i : items) {
-			if (i.name.toLowerCase().equals(name.toLowerCase()))
-				return i;
-		}
-		return null;
+		return Name.getByName(items, name);
 	}
 	
 	public Inventory() {

@@ -1,14 +1,16 @@
 package ranger.map;
 
 import ranger.item.Inventory;
+import ranger.name.Name;
+import ranger.name.Named;
 
-public class Feature {
+public class Feature implements Named {
 
 	public Inventory getInventory() {
 		return inventory;
 	}
 	
-	public String getName() {
+	public Name getName() {
 		return name;
 	}
 	
@@ -16,13 +18,13 @@ public class Feature {
 		return description;
 	}
 	
-	public Feature(String name, String description) {
+	public Feature(Name name, String description) {
 		this.name = name;
 		this.description = description;
 		inventory = new Inventory();
 	}
 	
-	private String name;
+	private Name name;
 	private String description;
 	private Inventory inventory;
 }

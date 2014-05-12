@@ -6,15 +6,15 @@ import ranger.item.Carcass;
 public class HuntManager {
 
 	public static Carcass getRabbit() {
-		return new Carcass("Rabbit", 8, 1, true);
+		return new Carcass("rabbit", 8, 1, true);
 	}
 
 	public static Carcass getDeer() {
-		return new Carcass("Rabbit", 15, 20, true);
+		return new Carcass("deer", 15, 20, true);
 	}
 
 	public static Carcass getQuail() {
-		return new Carcass("Quail", 5, 1, false);
+		return new Carcass("quail", 5, 1, false);
 	}
 	
 	public static void doHunt(Game game) {

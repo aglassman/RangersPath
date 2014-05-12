@@ -1,5 +1,7 @@
 package ranger.item;
 
+import ranger.name.Name;
+
 
 public class Carcass extends Item {
 	
@@ -7,7 +9,7 @@ public class Carcass extends Item {
 		if (producesHide) {
 			return new Item[]{
 					new Food(animalName, foodValue, servings),
-					new Item(animalName + " Skin")
+					new Item(new Name(animalName + " skin"))
 			};
 		}
 
@@ -21,7 +23,7 @@ public class Carcass extends Item {
 	}
 
 	public Carcass(String animalName, int foodValue, int servings, boolean producesHide) {
-		super(animalName + " carcass");
+		super(new Name(animalName + " carcass"));
 		this.animalName = animalName;
 		this.foodValue = foodValue;
 		this.servings = servings;

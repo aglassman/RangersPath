@@ -19,7 +19,7 @@ public class LookCommand implements Command {
 		if (!location.getFeatures().isEmpty()) {
 			System.out.println("You see: ");
 			for (Feature f : location.getFeatures())
-				System.out.println(f.getName());
+				System.out.println(f.getName().indefinite());
 		}
 	}
 

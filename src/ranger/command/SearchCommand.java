@@ -24,9 +24,9 @@ public class SearchCommand implements Command {
 			if (f.getInventory().isEmpty()) {
 				System.out.println("You do not find anything here.");
 			} else {
-				System.out.println("You search the " + f.getName() + " and you find:");
+				System.out.println("You search the " + f.getName().definite() + " and you find:");
 				for (Item i : f.getInventory().getItems())
-					System.out.println(i.getName());
+					System.out.println(i.getName().indefinite());
 			}
 		}
 	}
