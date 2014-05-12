@@ -2,16 +2,21 @@ package ranger.time;
 
 public class Time {
 	
-	public void showTime() {
-		long ticksToday = time % DAY_LENGTH;
+	public void showDayTime() {
 		System.out.print("Day " + (time/DAY_LENGTH + 1) + " of your wanderings. ");
 		
+		System.out.println(describeTimeOfDay());
+	}
+	
+	public String describeTimeOfDay() {
+		long ticksToday = time % DAY_LENGTH;
+		
 		if (ticksToday <= SUN_UP)
-			System.out.println("The sun has not yet risen.");
+			return "The sun has not yet risen.";
 		else if (ticksToday <= SUN_DOWN)
-			System.out.println("The sun shines overhead.");
+			return "The sun shines overhead.";
 		else
-			System.out.println("The sun has set");
+			return "The sun has set";
 	}
 	
 	public void waitMinutes(int minutes) {

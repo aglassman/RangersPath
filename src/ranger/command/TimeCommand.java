@@ -9,7 +9,7 @@ public class TimeCommand implements Command {
 	}
 
 	public void execute(Game game, String[] words, String directObject) {
-		game.getTime().showTime();
+		game.getTime().showDayTime();
 	}
 
 }

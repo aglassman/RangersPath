@@ -31,14 +31,17 @@ public class Parser {
 		this.game = game;
 		keywords = new HashMap<>();
 
-		registerCommand(new Quit());
-		registerCommand(new InventoryCommand());
-		registerCommand(new HealthCommand());
+		registerCommand(new CleanCommand());
 		registerCommand(new EatCommand());
+		registerCommand(new GetCommand());
+		registerCommand(new HealthCommand());
+		registerCommand(new HuntCommand());
+		registerCommand(new InventoryCommand());
+		registerCommand(new LookCommand());
+		registerCommand(new Quit());
+		registerCommand(new SearchCommand());
 		registerCommand(new TimeCommand());
 		registerCommand(new WaitCommand());
-		registerCommand(new CleanCommand());
-		registerCommand(new HuntCommand());
 	}
 	
 	private Game game;
