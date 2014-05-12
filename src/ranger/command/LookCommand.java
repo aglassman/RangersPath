@@ -1,8 +1,8 @@
 package ranger.command;
 
 import ranger.Game;
-import ranger.map.Feature;
 import ranger.map.Location;
+import ranger.name.Name;
 
 public class LookCommand implements Command {
 
@@ -17,9 +17,7 @@ public class LookCommand implements Command {
 		System.out.println(location.describe());
 		
 		if (!location.getFeatures().isEmpty()) {
-			System.out.println("You see: ");
-			for (Feature f : location.getFeatures())
-				System.out.println(f.getName().indefinite());
+			System.out.println("You see " + Name.commaList(location.getFeatures()) + ".");
 		}
 	}
 

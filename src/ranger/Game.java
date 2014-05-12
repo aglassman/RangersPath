@@ -38,12 +38,16 @@ public class Game {
 		Location locationA = new Location("The forest stretches as far as your eye can see.");
 		Feature orcCamp = new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago.");
 		orcCamp.getInventory().addItem(HuntManager.getRabbit());
+		orcCamp.getInventory().addItem(HuntManager.getQuail());
+		orcCamp.getInventory().addItem(new Item(new Name("arrowhead")));
 		locationA.addFeature(orcCamp);
 		region.addLocation(locationA);
 		
 		Location locationB = new Location("The forest stretches as far as your eye can see.");
 		Feature seat = new Feature(new DefiniteName("Seat of the King"), "An ancient stone seat atop a hill, carved with the faces of long-forgotten kings.");
 		locationB.addFeature(seat);
+		Feature spring = new Feature(new Name("pond"), "You see your grizzled reflection in the still surface of the water.");
+		locationB.addFeature(spring);
 		region.addLocation(locationB);
 		
 		location = region.getRandomLocation();

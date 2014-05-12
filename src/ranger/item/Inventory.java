@@ -1,11 +1,12 @@
 package ranger.item;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import ranger.name.Name;
 
 public class Inventory {
-	public Iterable<Item> getItems() {
+	public List<Item> getItems() {
 		return items;
 	}
 	
