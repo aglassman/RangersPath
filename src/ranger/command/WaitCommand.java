@@ -8,7 +8,7 @@ public class WaitCommand implements Command {
 		return "wait";
 	}
 
-	public void execute(Game game, String[] words) {
+	public void execute(Game game, String[] words, String directObject) {
 		try {
 			int time;
 			if (words.length > 1)

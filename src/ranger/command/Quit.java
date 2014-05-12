@@ -8,7 +8,7 @@ public class Quit implements Command {
 		return "quit";
 	}
 
-	public void execute(Game game, String[] words) {
+	public void execute(Game game, String[] words, String directObject) {
 		System.exit(0);
 	}
 

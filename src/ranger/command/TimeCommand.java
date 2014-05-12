@@ -8,7 +8,7 @@ public class TimeCommand implements Command {
 		return "time";
 	}
 
-	public void execute(Game game, String[] words) {
+	public void execute(Game game, String[] words, String directObject) {
 		game.getTime().showTime();
 	}
 

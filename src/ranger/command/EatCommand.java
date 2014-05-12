@@ -11,16 +11,9 @@ public class EatCommand implements Command {
 		return "eat";
 	}
 
-	public void execute(Game game, String[] words) {
-		String foodName = "";
-		for (int i = 1; i<words.length; ++i) {
-			foodName += words[i];
-			if (i < words.length-1)
-				foodName += " ";
-		}
-		
+	public void execute(Game game, String[] words, String directObject) {		
 		Inventory invent = game.getPlayer().getInventory();
-		Item item = invent.getItem(foodName);
+		Item item = invent.getItem(directObject);
 		if (item == null) {
 			System.out.println("You don't have any of that.");
 		} else if (item instanceof Food) {
@@ -28,7 +21,7 @@ public class EatCommand implements Command {
 			invent.reduceServing(food);
 			game.getPlayer().addFoodValue(food.getFoodValue());
 		} else {
-			System.out.println("You can't eat your " + foodName);
+			System.out.println("You can't eat your " + directObject);
 		}
 	}
 

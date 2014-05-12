@@ -15,6 +15,10 @@ public class Inventory {
 		items.add(i);
 	}
 	
+	public void removeItem(Item item) {
+		items.remove(item);
+	}
+	
 	public void reduceServing(Food food) {
 		food.consume();
 		if (food.getServings() == 0)
@@ -23,7 +27,7 @@ public class Inventory {
 	
 	public Item getItem(String name) {
 		for (Item i : items) {
-			if (i.name.equals(name))
+			if (i.name.toLowerCase().equals(name))
 				return i;
 		}
 		return null;

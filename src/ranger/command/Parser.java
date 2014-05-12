@@ -17,7 +17,11 @@ public class Parser {
 	public void parse(String input) {
 		String[] words = input.split(" ");
 		if (words.length > 0 && keywords.containsKey(words[0])) {
-			keywords.get(words[0]).execute(game, words);
+			String directObject = "";
+			if (words.length > 1)
+				directObject = input.substring(words[0].length() + 1).toLowerCase();
+			
+			keywords.get(words[0]).execute(game, words, directObject);
 		} else {
 			System.out.println("You can't do that.");
 		}
@@ -33,6 +37,7 @@ public class Parser {
 		registerCommand(new EatCommand());
 		registerCommand(new TimeCommand());
 		registerCommand(new WaitCommand());
+		registerCommand(new CleanCommand());
 	}
 	
 	private Game game;
