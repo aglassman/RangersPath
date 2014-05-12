@@ -28,6 +28,29 @@ public class Name {
 		return listString;
 	}
 	
+	public static String pluralize(String word) {
+		char lastLetter = word.charAt(word.length()-1);
+		if (lastLetter == 's')
+			return word + "es";
+		if (lastLetter == 'y')
+			return word.substring(0, word.length()-1) + "ies";
+		return word + "s";
+	}
+	
+	public static String indefiniteSingular(String word) {
+		return (isVowel(word.charAt(0)) ? "an " : "a ") + word;
+	}
+
+	public static boolean isVowel(char c) {
+		return c == 'A' || c == 'a'
+				|| c == 'E' || c == 'e'
+				|| c == 'I' || c == 'i'
+				|| c == 'O' || c == 'o'
+				|| c == 'U' || c == 'u'
+				|| c == 'Y' || c == 'y';
+	}
+	
+	
 	/**
 	 * Use this form when refering to something directly, as in
 	 * "You search the Orc camp and you find nothing."
@@ -42,7 +65,7 @@ public class Name {
 	 * Not all forms will look indefinite, as in "an Orc camp and the Tomb of the Kings"
 	 */
 	public String indefinite() {
-		return (isVowel(baseName.charAt(0)) ? "an " : "a ") + baseName;
+		return indefiniteSingular(baseName);
 	}
 	
 	/**
@@ -59,15 +82,6 @@ public class Name {
 	public Name(String base) {
 		baseName = base;
 	}
-	
-	private boolean isVowel(char c) {
-		return c == 'A' || c == 'a'
-				|| c == 'E' || c == 'e'
-				|| c == 'I' || c == 'i'
-				|| c == 'O' || c == 'o'
-				|| c == 'U' || c == 'u'
-				|| c == 'Y' || c == 'y';
-	}
-	
+
 	protected String baseName;
 }

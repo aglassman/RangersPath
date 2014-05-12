@@ -39,7 +39,7 @@ public class Game {
 		Feature orcCamp = new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago.");
 		orcCamp.getInventory().addItem(HuntManager.getRabbit());
 		orcCamp.getInventory().addItem(HuntManager.getQuail());
-		orcCamp.getInventory().addItem(new Item(new Name("arrowhead")));
+		orcCamp.getInventory().addItem(new Item("arrowhead", 5));
 		locationA.addFeature(orcCamp);
 		region.addLocation(locationA);
 		

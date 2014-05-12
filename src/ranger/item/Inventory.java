@@ -15,28 +15,28 @@ public class Inventory {
 	}
 	
 	public void addItem(Item i) {
-		if (i instanceof Food)
-			addServings((Food)i);
-		else
+		if (i.isStackable()) {
+			Item existingItem = getItem(i.getName().basic());
+			if (existingItem == null)
+				items.add(i);
+			else
+				existingItem.adjustQuantity(i.getQuantity());
+		} else {
 			items.add(i);
+		}
 	}
 	
 	public void removeItem(Item item) {
 		items.remove(item);
 	}
 
-	public void reduceServing(Food food) {
-		food.consume();
-		if (food.getServings() == 0)
-			items.remove(food);
-	}
-
-	public void addServings(Food food) {
-		Item otherFood = getItem(food.name.basic().toLowerCase());
-		if (otherFood == null || !(otherFood instanceof Food)) {
-			items.add(food);
+	public void expend(Item item) {
+		if (item.isStackable()) {
+			item.adjustQuantity(-1);
+			if (item.getQuantity() == 0)
+				items.remove(item);
 		} else {
-			((Food)otherFood).addServings(food.getServings());
+			items.remove(item);
 		}
 	}
 	

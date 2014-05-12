@@ -18,7 +18,7 @@ public class EatCommand implements Command {
 			System.out.println("You don't have any of that.");
 		} else if (item instanceof Food) {
 			Food food = (Food)item;
-			invent.reduceServing(food);
+			invent.expend(food);
 			game.getPlayer().addFoodValue(food.getFoodValue());
 		} else {
 			System.out.println("You can't eat your " + directObject);

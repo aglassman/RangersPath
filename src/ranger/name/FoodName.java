@@ -11,17 +11,14 @@ public class FoodName extends Name {
 
 	@Override
 	public String indefinite() {
-		return food.getServings() > 1
-				? food.getServings() + " servings of " + baseName
+		return food.getQuantity() > 1
+				? food.getQuantity() + " servings of " + baseName
 				: "a serving of " + baseName;
 	}
-	
-	public void setFood(Food food) {
-		this.food = food;
-	}
-	
-	public FoodName(String name) {
+
+	public FoodName(String name, Food food) {
 		super(name);
+		this.food = food;
 	}
 	
 	private Food food;

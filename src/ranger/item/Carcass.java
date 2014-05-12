@@ -23,7 +23,7 @@ public class Carcass extends Item {
 	}
 
 	public Carcass(String animalName, int foodValue, int servings, boolean producesHide) {
-		super(new Name(animalName + " carcass"));
+		super(animalName + " carcass", 1);
 		this.animalName = animalName;
 		this.foodValue = foodValue;
 		this.servings = servings;
