@@ -15,6 +15,10 @@ public class Carcass extends Item {
 				new Food(animalName, foodValue, servings)
 		};
 	}
+	
+	public String getAnimalName() {
+		return animalName;
+	}
 
 	public Carcass(String animalName, int foodValue, int servings, boolean producesHide) {
 		super(animalName + " carcass");

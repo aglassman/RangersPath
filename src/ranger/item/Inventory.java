@@ -12,22 +12,34 @@ public class Inventory {
 	}
 	
 	public void addItem(Item i) {
-		items.add(i);
+		if (i instanceof Food)
+			addServings((Food)i);
+		else
+			items.add(i);
 	}
 	
 	public void removeItem(Item item) {
 		items.remove(item);
 	}
-	
+
 	public void reduceServing(Food food) {
 		food.consume();
 		if (food.getServings() == 0)
 			items.remove(food);
 	}
+
+	public void addServings(Food food) {
+		Item otherFood = getItem(food.name);
+		if (otherFood == null || !(otherFood instanceof Food)) {
+			items.add(food);
+		} else {
+			((Food)otherFood).addServings(food.getServings());
+		}
+	}
 	
 	public Item getItem(String name) {
 		for (Item i : items) {
-			if (i.name.toLowerCase().equals(name))
+			if (i.name.toLowerCase().equals(name.toLowerCase()))
 				return i;
 		}
 		return null;

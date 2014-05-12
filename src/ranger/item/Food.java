@@ -12,6 +12,10 @@ public class Food extends Item {
 		return servings;
 	}
 	
+	public void addServings(int moreServings) {
+		servings += moreServings;
+	}
+	
 	public void consume() {
 		--servings;
 	}

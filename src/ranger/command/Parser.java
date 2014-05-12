@@ -38,6 +38,7 @@ public class Parser {
 		registerCommand(new TimeCommand());
 		registerCommand(new WaitCommand());
 		registerCommand(new CleanCommand());
+		registerCommand(new HuntCommand());
 	}
 	
 	private Game game;
