@@ -1,21 +1,20 @@
 package ranger.item;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ranger.name.Name;
 
 
 public class Carcass extends Item {
 	
-	public Item[] clean() {
-		if (producesHide) {
-			return new Item[]{
-					new Food(animalName, foodValue, servings),
-					new Item(new Name(animalName + " skin"))
-			};
-		}
+	public List<Item> clean() {
+		List<Item> produce = new LinkedList<>();
+		produce.add(new Food(animalName, foodValue, servings));
+		if (producesHide) 
+			produce.add(new Item(new Name(animalName + " skin")));
 
-		return new Item[]{
-				new Food(animalName, foodValue, servings)
-		};
+		return produce;
 	}
 	
 	public String getAnimalName() {

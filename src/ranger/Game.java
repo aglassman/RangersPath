@@ -59,7 +59,7 @@ public class Game {
 		System.exit(0);
 	}
 	
-	public Game() {
+	public Game() {		
 		time = new Time();
 		player = new Player();
 

@@ -1,9 +1,9 @@
 package ranger.command;
 
 import ranger.Game;
+import ranger.Output;
 import ranger.map.Feature;
 import ranger.map.Location;
-import ranger.name.Name;
 
 public class SearchCommand implements Command {
 
@@ -28,8 +28,7 @@ public class SearchCommand implements Command {
 			if (f.getInventory().isEmpty()) {
 				System.out.println("You do not find anything here.");
 			} else {
-				System.out.println("Searching " + f.getName().definite() + " you find " 
-						+ Name.commaList(f.getInventory().getItems()) + ".");
+				Output.printList("Searching " + f.getName().definite() + " you find ", f.getInventory().getItems(), ".");
 			}
 		}
 	}

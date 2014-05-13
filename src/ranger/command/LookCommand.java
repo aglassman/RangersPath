@@ -1,9 +1,10 @@
 package ranger.command;
 
 import ranger.Game;
+import ranger.Output;
 import ranger.entity.Entity;
 import ranger.map.Location;
-import ranger.name.Name;
+import ranger.name.Name.NameType;
 
 public class LookCommand implements Command {
 
@@ -22,24 +23,21 @@ public class LookCommand implements Command {
 		System.out.println(location.describe());
 		
 		if (!location.getFeatures().isEmpty()) {
-			System.out.println("You see " + Name.commaList(location.getFeatures()) + ".");
+			Output.printList("You see ", location.getFeatures(), ".");
 		}
 		
 		if (!location.getEntities().isEmpty()) {
 			for (Entity e : location.getEntities()) {
 				if (e.getEquip() != null) {
 					if (e.weaponDrawn()) {
-						System.out.println("You see " + e.getName().indefinite() + ", with its "
-								+ e.getEquip().getName().basic()+" drawn!");
+						Output.print("You see %s, with its %s drawn!", e, NameType.INDEFINITE, e.getEquip(), NameType.BASIC);
 					} else {
-						System.out.println("You see " + e.getName().indefinite() + " equipped with an undrawn "
-								+ e.getEquip().getName().basic() + ".");
+						Output.print("You see %s equipped with and undrawn %s.", e, NameType.INDEFINITE, e.getEquip(), NameType.BASIC);
 					}
 				} else {
-					System.out.println("You see " + e.getName().indefinite() + ", unarmed.");
+					Output.print("You see %s, unarmed.", e, NameType.INDEFINITE);
 				}
 			}
 		}
 	}
-
 }

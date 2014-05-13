@@ -14,6 +14,7 @@ public class Main {
 				System.out.print(">");
 				String input = in.nextLine();
 				parser.parse(input);
+				System.out.println();
 			}
 		}
 	}

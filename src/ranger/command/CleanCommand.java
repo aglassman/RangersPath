@@ -1,9 +1,11 @@
 package ranger.command;
 
 import ranger.Game;
+import ranger.Output;
 import ranger.item.Carcass;
 import ranger.item.Inventory;
 import ranger.item.Item;
+import ranger.name.Name.NameType;
 
 public class CleanCommand implements Command {
 
@@ -24,9 +26,9 @@ public class CleanCommand implements Command {
 			Carcass carcass = (Carcass)item;
 			invent.removeItem(carcass);
 			
-			System.out.println("You cleaned " + carcass.getName().definite() + " and produced:");
+			Output.print("You cleaned %s and produced:", carcass, NameType.DEFINITE);
+			Output.printList("", carcass.clean(), "");
 			for (Item product : carcass.clean()) {
-				System.out.println(product.getName().indefinite());
 				invent.addItem(product);
 			}
 		} else {

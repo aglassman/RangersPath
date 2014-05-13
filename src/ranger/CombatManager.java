@@ -3,6 +3,7 @@ package ranger;
 import ranger.entity.Entity;
 import ranger.map.Battlefield;
 import ranger.map.Location;
+import ranger.name.Name.NameType;
 
 public class CombatManager {
 	public static void playerAttacks(Game game, Entity player, Location location) {
@@ -13,7 +14,7 @@ public class CombatManager {
 		Entity defender = location.getEntities().get(0);
 		double stealthDice = Math.random() + location.getTerrainType().stealthMod;
 		if (stealthDice > defender.getPerception(game)) {
-			System.out.println("You take " + defender.getName().definite() + " unawares and kill it!");
+			Output.print("\tYou take %s unawares and kill it!", defender, NameType.DEFINITE);
 			game.killEntity(defender);
 			battlefield.addBody(defender);
 		}
@@ -23,11 +24,10 @@ public class CombatManager {
 			defender = location.getEntities().get(0);
 
 			// Player makes an attack
-			System.out.println("You attack " + defender.getName().definite()
-					+ " with your " + player.getEquip().getName().basic() + "!");
+			Output.print("\tYou attack %s with your %s.", defender, NameType.DEFINITE, player.getEquip(), NameType.BASIC);
 			defender.takeDamage(player.getEquip().getDamage());
 			if (defender.getHealth() == 0) {
-				System.out.println("You killed " + defender.getName().definite() + "!");
+				Output.print("\tYou killed %s!", defender, NameType.DEFINITE);
 				game.killEntity(defender);
 				battlefield.addBody(defender);
 			}
@@ -35,12 +35,12 @@ public class CombatManager {
 			// Each enemy attacks player
 			for (Entity e : location.getEntities()) {
 				if (e.weaponDrawn()) {
-					System.out.println(e.getName().indefinite() + " attacks you with its " + e.getEquip().getName().basic());
+					Output.print("\t%s attacks you with its %s.", e, NameType.INDEFINITE, e.getEquip(), NameType.BASIC);
 					player.takeDamage(e.getEquip().getDamage());
 					if (player.getHealth() == 0)
 						game.killPlayer();
 				} else {
-					System.out.println(e.getName().indefinite() + " draws " + e.getEquip().getName().indefinite() + ".");
+					Output.print("\t%s draws %s.", e, NameType.INDEFINITE, e.getEquip(), NameType.INDEFINITE);
 					e.setWeaponDrawn(true);
 				}
 			}

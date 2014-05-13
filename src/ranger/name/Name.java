@@ -4,6 +4,12 @@ import java.util.List;
 
 public class Name {
 	
+	public enum NameType {
+		DEFINITE,
+		INDEFINITE,
+		BASIC;
+	}
+	
 	public static <N extends Named> N getByName(List<N> items, String nameSearch) {
 		nameSearch = nameSearch.toLowerCase();
 		for (N named : items) {
@@ -11,21 +17,6 @@ public class Name {
 				return named;
 		}
 		return null;
-	}
-	
-	public static String commaList(List<? extends Named> items) {
-		String listString = items.get(0).getName().indefinite();
-		
-		// only two items, no oxford comma
-		if (items.size() == 2)
-			listString += " and " + items.get(1).getName().indefinite();
-		else if (items.size() > 2) {
-			for (int i = 1; i<items.size()-1; ++i)
-				listString += ", " + items.get(i).getName().indefinite();
-			listString += ", and " + items.get(items.size()-1).getName().indefinite();
-		}
-		
-		return listString;
 	}
 	
 	public static String pluralize(String word) {
