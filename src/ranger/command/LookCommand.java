@@ -1,6 +1,7 @@
 package ranger.command;
 
 import ranger.Game;
+import ranger.entity.Entity;
 import ranger.map.Location;
 import ranger.name.Name;
 
@@ -18,6 +19,22 @@ public class LookCommand implements Command {
 		
 		if (!location.getFeatures().isEmpty()) {
 			System.out.println("You see " + Name.commaList(location.getFeatures()) + ".");
+		}
+		
+		if (!location.getEntities().isEmpty()) {
+			for (Entity e : location.getEntities()) {
+				if (e.getEquip() != null) {
+					if (e.weaponDrawn()) {
+						System.out.println("You see " + e.getName().indefinite() + ", with its "
+								+ e.getEquip().getName().basic()+" drawn!");
+					} else {
+						System.out.println("You see " + e.getName().indefinite() + " equipped with an undrawn "
+								+ e.getEquip().getName().basic() + ".");
+					}
+				} else {
+					System.out.println("You see " + e.getName().indefinite() + ", unarmed.");
+				}
+			}
 		}
 	}
 

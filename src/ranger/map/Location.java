@@ -3,6 +3,7 @@ package ranger.map;
 import java.util.LinkedList;
 import java.util.List;
 
+import ranger.entity.Entity;
 import ranger.item.Item;
 import ranger.name.Name;
 import ranger.name.Named;
@@ -16,6 +17,10 @@ public class Location implements Named {
 	
 	public List<Feature> getFeatures() {
 		return features;
+	}
+	
+	public List<Entity> getEntities() {
+		return entities;
 	}
 	
 	/**
@@ -35,13 +40,25 @@ public class Location implements Named {
 
 		return null;
 	}
-	
+
 	public Feature getFeature(String name) {
 		return Name.getByName(features, name);
 	}
 	
 	public void addFeature(Feature f) {
 		features.add(f);
+	}
+	
+	public void removeEntity(Entity e) {
+		entities.remove(e);
+	}
+
+	public Entity getEntity(String name) {
+		return Name.getByName(entities, name);
+	}
+	
+	public void addEntity(Entity e) {
+		entities.add(e);
 	}
 	
 	public Name getName() {
@@ -52,9 +69,11 @@ public class Location implements Named {
 		this.name = name;
 		this.description = description;
 		features = new LinkedList<>();
+		entities = new LinkedList<>();
 	}
 	
 	private Name name;
 	private String description;
 	private List<Feature> features;
+	private List<Entity> entities;
 }

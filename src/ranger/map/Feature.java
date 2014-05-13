@@ -24,7 +24,7 @@ public class Feature implements Named {
 		inventory = new Inventory();
 	}
 	
-	private Name name;
-	private String description;
-	private Inventory inventory;
+	protected Name name;
+	protected String description;
+	protected Inventory inventory;
 }

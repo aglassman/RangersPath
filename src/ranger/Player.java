@@ -1,12 +1,10 @@
 package ranger;
 
-import ranger.item.Inventory;
+import ranger.entity.Entity;
+import ranger.name.Name;
 
-public class Player {
-	public Inventory getInventory() {
-		return inventory;
-	}
-	
+public class Player extends Entity {
+
 	public int getFood() {
 		return food;
 	}
@@ -19,20 +17,13 @@ public class Player {
 		return hydration;
 	}
 	
-	public int getHealth() {
-		return health;
-	}
-	
 	public Player() {
-		inventory = new Inventory();
+		super(new Name("Turambar"));
 		
 		food = 50;
 		hydration = 100;
-		health = 100;
 	}
 	
-	private Inventory inventory;
 	private int food;
 	private int hydration;
-	private int health;
 }

@@ -31,6 +31,7 @@ public class Parser {
 		this.game = game;
 		keywords = new HashMap<>();
 
+		registerCommand(new AttackCommand());
 		registerCommand(new CleanCommand());
 		registerCommand(new EatCommand());
 		registerCommand(new GetCommand());

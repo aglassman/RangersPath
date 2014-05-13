@@ -15,7 +15,7 @@ public class WaitCommand implements Command {
 				time = Integer.parseInt(words[1]);
 			else
 				time = 15;
-			game.getTime().waitMinutes(time);
+			game.waitMinutes(time);
 		} catch (NumberFormatException e) {
 		}
 	}
