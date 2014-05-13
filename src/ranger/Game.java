@@ -54,11 +54,16 @@ public class Game {
 		entity.getCurrentLocation().removeEntity(entity);
 	}
 	
+	public void killPlayer() {
+		System.out.println("You are dead.");
+		System.exit(0);
+	}
+	
 	public Game() {
 		time = new Time();
 		player = new Player();
 
-		Weapon dagger = new Weapon(new Name("dagger"));
+		Weapon dagger = new Weapon(new Name("dagger"), 10);
 		player.setEquip(dagger);
 		player.getInventory().addItem(dagger);
 		player.getInventory().addItem(new Food("Salted Pork", 3, 15));

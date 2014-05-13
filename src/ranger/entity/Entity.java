@@ -56,16 +56,26 @@ public class Entity implements Named {
 		return health;
 	}
 	
-	public Entity(Name name) {
+	public double getPerception(Game game) {
+		double perception = 0.5;
+		if (darkVision && game.getTime().isDark())
+			perception += 0.2;
+		
+		return perception;
+	}
+	
+	public Entity(Name name, boolean darkVision) {
 		this.name = name;
 		inventory = new Inventory();
 		health = 100;
 	}
 	
-	private Inventory inventory;
+	protected Inventory inventory;
 	protected Weapon equip;
 	protected Name name;
 	protected Location location;
 	protected int health;
 	protected boolean drawn;
+	
+	protected boolean darkVision;
 }

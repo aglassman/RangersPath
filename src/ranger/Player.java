@@ -18,7 +18,7 @@ public class Player extends Entity {
 	}
 	
 	public Player() {
-		super(new Name("Turambar"));
+		super(new Name("Turambar"), false);
 		
 		food = 50;
 		hydration = 100;

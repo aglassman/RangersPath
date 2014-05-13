@@ -44,8 +44,8 @@ public class Generator {
 	}
 	
 	private static Entity getEntity() {
-		Entity goblin = new Entity(new Name("Goblin"));
-		Weapon shortSword = new Weapon(new Name("short sword"));
+		Entity goblin = new Entity(new Name("Goblin"), true);
+		Weapon shortSword = new Weapon(new Name("short sword"), 20);
 		goblin.setEquip(shortSword);
 		if (Math.random() > 0.5)
 			goblin.setWeaponDrawn(true);
