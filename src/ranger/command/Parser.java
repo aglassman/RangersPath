@@ -34,6 +34,7 @@ public class Parser {
 		registerCommand(new AttackCommand());
 		registerCommand(new CleanCommand());
 		registerCommand(new EatCommand());
+		registerCommand(new EquipCommand());
 		registerCommand(new GetCommand());
 		registerCommand(new HealthCommand());
 		registerCommand(new HuntCommand());

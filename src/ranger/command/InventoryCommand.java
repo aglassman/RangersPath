@@ -16,8 +16,13 @@ public class InventoryCommand implements Command {
 			System.out.println("You carry nothing.");
 		} else {
 			System.out.println("You carry:");
-			for (Item i : inventory.getItems())
-				System.out.println(i.getName().indefinite());
+			for (Item i : inventory.getItems()) {
+				System.out.print(i.getName().indefinite());
+				if (i == game.getPlayer().getEquip())
+					System.out.println(" (equipped)");
+				else
+					System.out.println();
+			}
 		}
 	}
 
