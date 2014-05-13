@@ -8,7 +8,6 @@ import ranger.item.Item;
 import ranger.name.Name;
 import ranger.name.Named;
 
-
 public class Location implements Named {
 	
 	public String describe() {
@@ -65,14 +64,20 @@ public class Location implements Named {
 		return name;
 	}
 	
-	public Location(Name name, String description) {
+	public TerrainType getTerrainType() {
+		return terrain;
+	}
+	
+	public Location(Name name, TerrainType terrain, String description) {
 		this.name = name;
+		this.terrain = terrain;
 		this.description = description;
 		features = new LinkedList<>();
 		entities = new LinkedList<>();
 	}
 	
 	private Name name;
+	private TerrainType terrain;
 	private String description;
 	private List<Feature> features;
 	private List<Entity> entities;

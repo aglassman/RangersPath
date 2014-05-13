@@ -8,10 +8,19 @@ public class CombatManager {
 	public static void playerAttacks(Game game, Entity player, Location location) {
 		Battlefield battlefield = new Battlefield();
 		location.addFeature(battlefield);
+
+		Entity defender = location.getEntities().get(0);
+		double stealthDice = Math.random() + location.getTerrainType().stealthMod;
+		if (stealthDice > 0.8) {
+			System.out.println("You take " + defender.getName().definite() + " unawares and kill it!");
+			game.killEntity(defender);
+			battlefield.addBody(defender);
+		}
 		
 		while (!location.getEntities().isEmpty()) {
 			// Player makes an attack
-			Entity defender = location.getEntities().get(0);
+			defender = location.getEntities().get(0);
+			
 			System.out.println("You attack " + defender.getName().definite()
 					+ " with your " + player.getEquip().getName().basic() + "!");
 			defender.takeDamage(50);

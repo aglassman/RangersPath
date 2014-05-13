@@ -18,7 +18,14 @@ public class Generator {
 	}
 	
 	private static void addLocation(Region region, Game game) {
-		Location location = new Location(new Name("forest"), "The forest stretches as far as your eye can see.");
+		Location location;
+		double typeDice = Math.random();
+		if (typeDice > 0.5)
+			location = new Location(new Name("forest"), TerrainType.FOREST, "The forest stretches as far as your eye can see, and dense underbrush provides cover.");
+		else if (typeDice > 0.2)
+			location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.");
+		else
+			location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass rolls accross a grassy plain.");
 		
 		// Add some features
 		if (Math.random() > 0.1)
