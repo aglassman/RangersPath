@@ -10,6 +10,10 @@ public class EquipCommand implements Command {
 		return "equip";
 	}
 
+	public String getHelpText() {
+		return "Choose a weapon in your inventory to be your primary weapon.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		Item item = game.getPlayer().getInventory().getItem(directObject);
 		

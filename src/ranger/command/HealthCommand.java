@@ -9,6 +9,10 @@ public class HealthCommand implements Command {
 		return "health";
 	}
 
+	public String getHelpText() {
+		return "See your health status.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		Player player = game.getPlayer();
 		displayStat(player.getHealth(), "You are healthy.", "You are injured.", "You are gravely wounded.");

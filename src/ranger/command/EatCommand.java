@@ -11,6 +11,11 @@ public class EatCommand implements Command {
 		return "eat";
 	}
 
+	public String getHelpText() {
+		return "Consume your food for energy.";
+	}
+
+
 	public void execute(Game game, String[] words, String directObject) {		
 		Inventory invent = game.getPlayer().getInventory();
 		Item item = invent.getItem(directObject);

@@ -11,6 +11,10 @@ public class SearchCommand implements Command {
 		return "search";
 	}
 
+	public String getHelpText() {
+		return "Thoroughly search a feature of your location.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		Location location = game.getPlayerLocation();
 		Feature f = location.getFeature(directObject);

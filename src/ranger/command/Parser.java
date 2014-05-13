@@ -1,6 +1,7 @@
 package ranger.command;
 
-import java.util.HashMap;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import ranger.Game;
 
@@ -29,7 +30,7 @@ public class Parser {
 	
 	public Parser(Game game) {
 		this.game = game;
-		keywords = new HashMap<>();
+		keywords = new TreeMap<>();
 
 		registerCommand(new AttackCommand());
 		registerCommand(new CleanCommand());
@@ -45,8 +46,27 @@ public class Parser {
 		registerCommand(new TimeCommand());
 		registerCommand(new WaitCommand());
 		registerCommand(new WanderCommand());
+		
+		registerCommand(new Command() {
+
+			public String getKeyword() {
+				return "help";
+			}
+
+			public String getHelpText() {
+				return "Recieve help for game commands.";
+			}
+
+			public void execute(Game game, String[] words, String directObject) {
+				System.out.println("Legal commands are:");
+				for (String s : keywords.keySet()) {
+					System.out.println(s);
+					System.out.println("\t" + keywords.get(s).getHelpText());
+				}
+			}
+		});
 	}
 	
 	private Game game;
-	private HashMap<String, Command> keywords;
+	private SortedMap<String, Command> keywords;
 }

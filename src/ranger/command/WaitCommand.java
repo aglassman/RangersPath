@@ -8,6 +8,10 @@ public class WaitCommand implements Command {
 		return "wait";
 	}
 
+	public String getHelpText() {
+		return "Rest for a while.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		try {
 			int time;

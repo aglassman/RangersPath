@@ -10,6 +10,10 @@ public class InventoryCommand implements Command {
 		return "inventory";
 	}
 
+	public String getHelpText() {
+		return "See all the items you are carrying.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		Inventory inventory = game.getPlayer().getInventory();
 		if (inventory.isEmpty()) {

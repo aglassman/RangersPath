@@ -8,6 +8,10 @@ public class WanderCommand implements Command {
 		return "wander";
 	}
 
+	public String getHelpText() {
+		return "Explore the world.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		game.setPlayerLocation(game.getRegion().getRandomLocation());
 		

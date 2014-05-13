@@ -11,6 +11,10 @@ public class LookCommand implements Command {
 		return "look";
 	}
 
+	public String getHelpText() {
+		return "Investigate your surroundings.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		System.out.print(game.getTime().describeTimeOfDay() + " ");
 		

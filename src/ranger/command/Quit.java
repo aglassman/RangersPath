@@ -8,6 +8,10 @@ public class Quit implements Command {
 		return "quit";
 	}
 
+	public String getHelpText() {
+		return "Exit the game.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		System.exit(0);
 	}

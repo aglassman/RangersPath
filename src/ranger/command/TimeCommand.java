@@ -8,6 +8,10 @@ public class TimeCommand implements Command {
 		return "time";
 	}
 
+	public String getHelpText() {
+		return "Check the approximate time of day.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		game.getTime().showDayTime();
 	}

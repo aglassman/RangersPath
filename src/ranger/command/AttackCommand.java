@@ -9,6 +9,10 @@ public class AttackCommand implements Command {
 	public String getKeyword() {
 		return "attack";
 	}
+	
+	public String getHelpText() {
+		return "Leave hiding and attack the enemies at your location.";
+	}
 
 	public void execute(Game game, String[] words, String directObject) {
 		Location location = game.getPlayerLocation();

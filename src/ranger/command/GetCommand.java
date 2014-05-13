@@ -9,6 +9,10 @@ public class GetCommand implements Command {
 		return "get";
 	}
 
+	public String getHelpText() {
+		return "Pick up an item at your location.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		Item item = game.getPlayerLocation().getItem(directObject);
 		if (item == null) {

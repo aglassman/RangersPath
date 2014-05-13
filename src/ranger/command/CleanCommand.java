@@ -11,6 +11,10 @@ public class CleanCommand implements Command {
 		return "clean";
 	}
 
+	public String getHelpText() {
+		return "Clean and dress an animal carcass for meat and hide.";
+	}
+
 	public void execute(Game game, String[] words, String directObject) {
 		Inventory invent = game.getPlayer().getInventory();
 		Item item = invent.getItem(directObject);
