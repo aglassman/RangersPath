@@ -6,6 +6,7 @@ import java.util.List;
 import ranger.entity.Entity;
 import ranger.hunting.HuntManager;
 import ranger.item.Food;
+import ranger.item.weapon.Ammo;
 import ranger.item.weapon.Weapon;
 import ranger.map.Generator;
 import ranger.map.Location;
@@ -66,6 +67,13 @@ public class Game {
 		Weapon dagger = new Weapon(new Name("dagger"), 10);
 		player.setEquip(dagger);
 		player.getInventory().addItem(dagger);
+		
+		Weapon bow = new Weapon(new Name("bow"), 10, true);
+		player.getInventory().addItem(bow);
+		Ammo arrows = new Ammo("arrow", 5, 3);
+		player.getInventory().addItem(arrows);
+		player.setAmmo(arrows);
+		
 		player.getInventory().addItem(new Food("Salted Pork", 3, 15));
 		player.getInventory().addItem(HuntManager.getRabbit());
 		player.getInventory().addItem(HuntManager.getQuail());

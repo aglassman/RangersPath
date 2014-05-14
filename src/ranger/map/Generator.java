@@ -4,6 +4,7 @@ import ranger.Game;
 import ranger.entity.Entity;
 import ranger.hunting.HuntManager;
 import ranger.item.Item;
+import ranger.item.weapon.Ammo;
 import ranger.item.weapon.Weapon;
 import ranger.name.Name;
 
@@ -45,11 +46,22 @@ public class Generator {
 	
 	private static Entity getEntity() {
 		Entity goblin = new Entity(new Name("Goblin"), true);
-		Weapon shortSword = new Weapon(new Name("short sword"), 20);
-		goblin.setEquip(shortSword);
+		
+		if (Math.random() > 0.4) {
+			Weapon shortSword = new Weapon(new Name("short sword"), 20);
+			goblin.getInventory().addItem(shortSword);
+			goblin.setEquip(shortSword);
+		} else {
+			Weapon bow = new Weapon(new Name("bow"), 10, true);
+			goblin.getInventory().addItem(bow);
+			goblin.setEquip(bow);
+			Ammo arrows = new Ammo("arrow", 3, (int)(Math.random() * 6));
+			goblin.getInventory().addItem(arrows);
+			goblin.setAmmo(arrows);
+		}		
+		
 		if (Math.random() > 0.5)
 			goblin.setWeaponDrawn(true);
-		goblin.getInventory().addItem(shortSword);
 		
 		return goblin;
 	}

@@ -2,6 +2,7 @@ package ranger.entity;
 
 import ranger.Game;
 import ranger.item.Inventory;
+import ranger.item.weapon.Ammo;
 import ranger.item.weapon.Weapon;
 import ranger.map.Location;
 import ranger.name.Name;
@@ -27,13 +28,21 @@ public class Entity implements Named {
 	public Name getName() {
 		return name;
 	}
-	
+
 	public void setEquip(Weapon weapon) {
 		equip = weapon;
 	}
-	
+
 	public Weapon getEquip() {
 		return equip;
+	}
+
+	public void setAmmo(Ammo ammo) {
+		this.ammo = ammo;
+	}
+	
+	public Ammo getAmmo() {
+		return ammo;
 	}
 	
 	public boolean weaponDrawn() {
@@ -72,6 +81,7 @@ public class Entity implements Named {
 	
 	protected Inventory inventory;
 	protected Weapon equip;
+	private Ammo ammo;
 	protected Name name;
 	protected Location location;
 	protected int health;

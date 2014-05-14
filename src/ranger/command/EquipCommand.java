@@ -2,6 +2,7 @@ package ranger.command;
 
 import ranger.Game;
 import ranger.item.Item;
+import ranger.item.weapon.Ammo;
 import ranger.item.weapon.Weapon;
 
 public class EquipCommand implements Command {
@@ -21,6 +22,8 @@ public class EquipCommand implements Command {
 			System.out.println("You don't have one of those.");
 		else if (item instanceof Weapon)
 			game.getPlayer().setEquip((Weapon)item);
+		else if (item instanceof Ammo)
+			game.getPlayer().setAmmo((Ammo)item);
 		else
 			System.out.println("You can't equip " + item.getName().definite() + ".");
 	}
