@@ -24,7 +24,7 @@ public class CleanCommand implements Command {
 			System.out.println("You don't have any of that.");
 		} else if (item instanceof Carcass) {
 			Carcass carcass = (Carcass)item;
-			invent.removeItem(carcass);
+			invent.expend(carcass);
 			
 			Output.println("You cleaned %s and produced:", carcass, NameType.DEFINITE);
 			Output.printlnList("", carcass.clean(), "");

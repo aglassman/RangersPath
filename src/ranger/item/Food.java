@@ -13,6 +13,7 @@ public class Food extends Item {
 		this.foodValue = foodValue;
 		name = new FoodName(foodName, this);
 		quantity = servings;
+		stackable = true;
 	}
 	
 	private int foodValue;

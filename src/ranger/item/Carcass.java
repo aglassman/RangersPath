@@ -3,16 +3,13 @@ package ranger.item;
 import java.util.LinkedList;
 import java.util.List;
 
-import ranger.name.Name;
-
-
 public class Carcass extends Item {
 	
 	public List<Item> clean() {
 		List<Item> produce = new LinkedList<>();
 		produce.add(new Food(animalName, foodValue, servings));
 		if (producesHide) 
-			produce.add(new Item(new Name(animalName + " skin")));
+			produce.add(new Item(animalName + " skin", 1));
 
 		return produce;
 	}
