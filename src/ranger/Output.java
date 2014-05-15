@@ -2,6 +2,7 @@ package ranger;
 
 import static org.fusesource.jansi.Ansi.ansi;
 import static org.fusesource.jansi.Ansi.Color.GREEN;
+import static org.fusesource.jansi.Ansi.Color.CYAN;
 import static org.fusesource.jansi.Ansi.Color.RED;
 import static org.fusesource.jansi.Ansi.Color.YELLOW;
 
@@ -12,11 +13,17 @@ import org.fusesource.jansi.AnsiConsole;
 
 import ranger.entity.Entity;
 import ranger.item.weapon.Weapon;
+import ranger.map.Direction;
 import ranger.map.Feature;
 import ranger.name.Name.NameType;
 import ranger.name.Named;
 
 public class Output {
+	
+	public static void println(String formatString, Object... items) {
+		print(formatString, items);
+		System.out.println();
+	}
 	
 	public static void print(String formatString, Object... items) {
 		AnsiConsole.systemInstall();
@@ -28,9 +35,14 @@ public class Output {
 			newFormatObjects[i/2] = color(named, type);
 		}
 		
-		System.out.println(String.format(formatString, newFormatObjects));
+		System.out.print(String.format(formatString, newFormatObjects));
 		
 		AnsiConsole.systemUninstall();
+	}
+	
+	public static void printlnList(String before, List<? extends Named> items, String after) {
+		printList(before, items, after);
+		System.out.println();
 	}
 	
 	public static void printList(String before, List<? extends Named> items, String after) {
@@ -46,8 +58,14 @@ public class Output {
 				output += ", " + color(items.get(i), NameType.INDEFINITE);
 			output += ", and " + color(items.get(items.size()-1), NameType.INDEFINITE);
 		}
-		System.out.println(output + after);
+		System.out.print(output + after);
 		
+		AnsiConsole.systemUninstall();
+	}
+	
+	public static void clear() {
+		AnsiConsole.systemInstall();
+		System.out.println(ansi().eraseScreen());
 		AnsiConsole.systemUninstall();
 	}
 
@@ -59,6 +77,8 @@ public class Output {
 			color = RED;
 		else if (named instanceof Feature)
 			color = YELLOW;
+		else if (named instanceof Direction)
+			color = CYAN;
 		else color = GREEN;
 		
 		String name;

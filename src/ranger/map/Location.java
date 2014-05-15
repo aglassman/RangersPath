@@ -68,14 +68,18 @@ public class Location implements Named {
 		return terrain;
 	}
 	
-	public Location(Name name, TerrainType terrain, String description) {
+	public Location(Name name, TerrainType terrain, String description, int x, int y) {
 		this.name = name;
 		this.terrain = terrain;
 		this.description = description;
+		this.x = x;
+		this.y = y;
 		features = new LinkedList<>();
 		entities = new LinkedList<>();
 	}
 	
+	protected final int x;
+	protected final int y;
 	private Name name;
 	private TerrainType terrain;
 	private String description;

@@ -27,7 +27,7 @@ public class CombatManager {
 					if (attack(e, player, game, location, battlefield))
 						++attacksMade;
 				} else {
-					Output.print("\t%s draws %s.", e, NameType.INDEFINITE, e.getEquip(), NameType.INDEFINITE);
+					Output.println("\t%s draws %s.", e, NameType.INDEFINITE, e.getEquip(), NameType.INDEFINITE);
 					e.setWeaponDrawn(true);
 				}
 			}
@@ -78,20 +78,20 @@ public class CombatManager {
 				game.killEntity(defender);
 				battlefield.addBody(defender);
 				if (attacker == game.getPlayer())
-					Output.print("\tYou take %s unawares and kill it!", defender, NameType.DEFINITE);
+					Output.println("\tYou take %s unawares and kill it!", defender, NameType.DEFINITE);
 				else
-					Output.print("%s takes %s unawares and kills it!", attacker, NameType.DEFINITE, defender, NameType.DEFINITE);
+					Output.println("%s takes %s unawares and kills it!", attacker, NameType.DEFINITE, defender, NameType.DEFINITE);
 			}
 		}
 	}
 	
 	private static void attackMessage(Entity attacker, Entity defender, Game game) {
 		if (attacker == game.getPlayer())
-			Output.print("\tYou attack %s with your %s.", defender, NameType.DEFINITE, attacker.getEquip(), NameType.BASIC);
+			Output.println("\tYou attack %s with your %s.", defender, NameType.DEFINITE, attacker.getEquip(), NameType.BASIC);
 		else if (defender == game.getPlayer())
-			Output.print("\t%s attacks you with its %s.", attacker, NameType.INDEFINITE, attacker.getEquip(), NameType.BASIC);
+			Output.println("\t%s attacks you with its %s.", attacker, NameType.INDEFINITE, attacker.getEquip(), NameType.BASIC);
 		else
-			Output.print("\t%s attacks %s with its %s.", attacker, NameType.INDEFINITE, defender, NameType.INDEFINITE, attacker.getEquip(), NameType.BASIC);
+			Output.println("\t%s attacks %s with its %s.", attacker, NameType.INDEFINITE, defender, NameType.INDEFINITE, attacker.getEquip(), NameType.BASIC);
 	}
 	
 	private static void kill(Entity attacker, Entity defender, Game game, Battlefield battlefield) {
@@ -102,9 +102,9 @@ public class CombatManager {
 			battlefield.addBody(defender);
 			
 			if (attacker == game.getPlayer())
-				Output.print("\tYou killed %s!", defender, NameType.DEFINITE);
+				Output.println("\tYou killed %s!", defender, NameType.DEFINITE);
 			else
-				Output.print("\t%s died!", defender, NameType.DEFINITE);
+				Output.println("\t%s died!", defender, NameType.DEFINITE);
 		}
 	}
 	
@@ -112,6 +112,6 @@ public class CombatManager {
 		if (entity == game.getPlayer())
 			System.out.println("\tYou are out of ammo.");
 		else
-			Output.print("\t%s is out of ammo.", entity, NameType.DEFINITE);
+			Output.println("\t%s is out of ammo.", entity, NameType.DEFINITE);
 	}
 }

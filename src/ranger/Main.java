@@ -8,6 +8,7 @@ public class Main {
 	public static void main(String... args) {
 		Game game = new Game();
 		Parser parser = new Parser(game);
+		Output.clear();
 		
 		try (Scanner in = new Scanner(System.in)) {
 			while (true) {

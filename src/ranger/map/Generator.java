@@ -10,23 +10,29 @@ import ranger.name.Name;
 
 public class Generator {
 	public static Region newRegion(Game game) {
-		Region region = new Region();
+		int width = 30;
+		int height = 30;
+		Region region = new Region(width, height);
 		
-		for (int i = 0; i<100; ++i)
-			addLocation(region, game);
+		for (int x = 0; x<width; ++x) {
+			for (int y = 0; y<height; ++y) {
+				Location l = addLocation(game, x, y);
+				region.setLocation(l, x, y);
+			}
+		}
 		
 		return region;
 	}
 	
-	private static void addLocation(Region region, Game game) {
+	private static Location addLocation(Game game, int x, int y) {
 		Location location;
 		double typeDice = Math.random();
 		if (typeDice > 0.5)
-			location = new Location(new Name("forest"), TerrainType.FOREST, "The forest stretches as far as your eye can see, and dense underbrush provides cover.");
+			location = new Location(new Name("forest"), TerrainType.FOREST, "The forest stretches as far as your eye can see, and dense underbrush provides cover.", x, y);
 		else if (typeDice > 0.2)
-			location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.");
+			location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", x, y);
 		else
-			location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass rolls accross a grassy plain.");
+			location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass rolls accross a grassy plain.", x, y);
 		
 		// Add some features
 		if (Math.random() > 0.1)
@@ -41,7 +47,7 @@ public class Generator {
 		for (Feature f : location.getFeatures())
 			addItems(f);
 		
-		region.addLocation(location);
+		return location;
 	}
 	
 	private static Entity getEntity() {

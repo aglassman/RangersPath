@@ -26,8 +26,8 @@ public class CleanCommand implements Command {
 			Carcass carcass = (Carcass)item;
 			invent.removeItem(carcass);
 			
-			Output.print("You cleaned %s and produced:", carcass, NameType.DEFINITE);
-			Output.printList("", carcass.clean(), "");
+			Output.println("You cleaned %s and produced:", carcass, NameType.DEFINITE);
+			Output.printlnList("", carcass.clean(), "");
 			for (Item product : carcass.clean()) {
 				invent.addItem(product);
 			}
