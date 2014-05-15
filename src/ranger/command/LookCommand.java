@@ -58,7 +58,7 @@ public class LookCommand implements Command {
 					if (e.weaponDrawn()) {
 						Output.println("You see %s, with its %s drawn!", e, NameType.INDEFINITE, e.getEquip(), NameType.BASIC);
 					} else {
-						Output.println("You see %s equipped with and undrawn %s.", e, NameType.INDEFINITE, e.getEquip(), NameType.BASIC);
+						Output.println("You see %s equipped with an undrawn %s.", e, NameType.INDEFINITE, e.getEquip(), NameType.BASIC);
 					}
 				} else {
 					Output.println("You see %s, unarmed.", e, NameType.INDEFINITE);
