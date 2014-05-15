@@ -38,7 +38,7 @@ public class LookCommand implements Command {
 				differentNeighbors.add(d);
 		}
 		if (!similarNeighbors.isEmpty())
-			Output.printList(" The " + location.getName().basic() + " extends to the ", similarNeighbors, ".");
+			Output.printList(" The " + location.getName().basic() + " continues to the ", similarNeighbors, ".");
 		if (!differentNeighbors.isEmpty()) {
 			for (Direction d : differentNeighbors) {
 				Location neighbor = game.getRegion().getNeighbor(location, d);
