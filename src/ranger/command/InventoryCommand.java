@@ -25,7 +25,7 @@ public class InventoryCommand implements Command {
 				if (i == game.getPlayer().getEquip())
 					System.out.println(" (equipped)");
 				else if (i == game.getPlayer().getAmmo())
-					System.out.println(" (quivver)");
+					System.out.println(" (quiver)");
 				else
 					System.out.println();
 			}

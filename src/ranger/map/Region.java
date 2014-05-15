@@ -1,5 +1,8 @@
 package ranger.map;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class Region {
 
@@ -18,8 +21,17 @@ public class Region {
 			return locations[location.x+1][location.y];
 	}
 	
-	public Direction[] getValidDirections(Location location) {
-		return Direction.values();
+	public List<Direction> getValidDirections(Location location) {
+		LinkedList<Direction> valid = new LinkedList<>();
+		if (location.y > 0)
+			valid.add(Direction.NORTH);
+		if (location.y < HEIGHT-1)
+			valid.add(Direction.SOUTH);
+		if (location.x > 0)
+			valid.add(Direction.WEST);
+		if (location.x < WIDTH-1)
+			valid.add(Direction.EAST);
+		return valid;
 	}
 
 	public void setLocation(Location location, int x, int y) {

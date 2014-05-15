@@ -28,11 +28,11 @@ public class Generator {
 		Location location;
 		double typeDice = Math.random();
 		if (typeDice > 0.5)
-			location = new Location(new Name("forest"), TerrainType.FOREST, "The forest stretches as far as your eye can see, and dense underbrush provides cover.", x, y);
+			location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", x, y);
 		else if (typeDice > 0.2)
 			location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", x, y);
 		else
-			location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass rolls accross a grassy plain.", x, y);
+			location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", x, y);
 		
 		// Add some features
 		if (Math.random() > 0.1)

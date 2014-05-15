@@ -25,7 +25,7 @@ public class LookCommand implements Command {
 		System.out.print(game.getTime().describeTimeOfDay() + " ");
 		
 		Location location = game.getPlayerLocation();
-		System.out.println(location.describe());
+		System.out.print(location.describe());
 
 		// List available directions
 		List<Direction> similarNeighbors = new LinkedList<>();
@@ -38,7 +38,7 @@ public class LookCommand implements Command {
 				differentNeighbors.add(d);
 		}
 		if (!similarNeighbors.isEmpty())
-			Output.printList("The " + location.getName().basic() + " extends to the ", similarNeighbors, ".");
+			Output.printList(" The " + location.getName().basic() + " extends to the ", similarNeighbors, ".");
 		if (!differentNeighbors.isEmpty()) {
 			for (Direction d : differentNeighbors) {
 				Location neighbor = game.getRegion().getNeighbor(location, d);
