@@ -8,10 +8,12 @@ import ranger.hunting.HuntManager;
 import ranger.item.Food;
 import ranger.item.weapon.Ammo;
 import ranger.item.weapon.Weapon;
+import ranger.map.Direction;
 import ranger.map.Generator;
 import ranger.map.Location;
 import ranger.map.Region;
 import ranger.name.Name;
+import ranger.name.Name.NameType;
 import ranger.time.Time;
 
 public class Game {
@@ -25,11 +27,27 @@ public class Game {
 	}
 
 	public Location getPlayerLocation() {
-		return location;
+		return player.getCurrentLocation();
 	}
+	
+	public void moveEntity(Entity entity, Direction direction) {
+		Location source = entity.getCurrentLocation();
+		Location destination = region.getNeighbor(source, direction);
+		
+		source.removeEntity(entity);
+		destination.addEntity(entity);
+		entity.setCurrentLocation(destination);
+		if (destination == player.getCurrentLocation())
+			Output.println("%s approached from the %s.", entity, NameType.INDEFINITE, direction.getOpposite(), NameType.INDEFINITE);
 
-	public void setPlayerLocation(Location location) {
-		this.location = location;
+		if (source == player.getCurrentLocation()) {
+			Output.println("%s left, heading %s.", entity, NameType.INDEFINITE, direction, NameType.INDEFINITE);
+	}
+	
+	public void movePlayer(Direction direction) {
+		Location destination = region.getNeighbor(player.getCurrentLocation(), direction);
+		player.setCurrentLocation(destination);
+		Output.println("You travel %s and come to %s.", direction, NameType.INDEFINITE, destination, NameType.INDEFINITE);
 	}
 	
 	public Region getRegion() {
@@ -50,7 +68,6 @@ public class Game {
 	
 	public void killEntity(Entity entity) {
 		entities.remove(entity);
-		
 		
 		entity.getCurrentLocation().removeEntity(entity);
 	}
@@ -80,12 +97,11 @@ public class Game {
 			
 		entities = new LinkedList<>();
 		region = Generator.newRegion(this);	
-		location = region.getRandomLocation();
+		player.setCurrentLocation(region.getRandomLocation());
 	}
 	
 	private Time time;
 	private Player player;
 	private Region region;
-	private Location location;
 	private List<Entity> entities;
 }

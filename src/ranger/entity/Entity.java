@@ -1,9 +1,11 @@
 package ranger.entity;
 
 import ranger.Game;
+import ranger.Util;
 import ranger.item.Inventory;
 import ranger.item.weapon.Ammo;
 import ranger.item.weapon.Weapon;
+import ranger.map.Direction;
 import ranger.map.Location;
 import ranger.name.Name;
 import ranger.name.Named;
@@ -11,10 +13,8 @@ import ranger.name.Named;
 public class Entity implements Named {
 	
 	public void act(Game game, int time) {
-		location.removeEntity(this);
-		Location newLocation = game.getRegion().getRandomLocation();
-		location = newLocation;
-		newLocation.addEntity(this);
+		Direction move = Util.random(game.getRegion().getValidDirections(location));
+		game.moveEntity(this, move);
 	}
 	
 	public void setCurrentLocation(Location location) {

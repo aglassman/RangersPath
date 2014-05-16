@@ -18,9 +18,7 @@ public class GoCommand implements Command {
 			Location current = game.getPlayerLocation();
 			
 			if (game.getRegion().getValidDirections(current).contains(direction)) {
-				Location destination = game.getRegion().getNeighbor(current, direction);
-				game.setPlayerLocation(destination);
-				Output.println("You travel %s and come to %s.", direction, NameType.INDEFINITE, destination, NameType.INDEFINITE);
+				game.movePlayer(direction);
 			} else {
 				Output.println("You can't go %s.", direction, NameType.INDEFINITE);
 			}
