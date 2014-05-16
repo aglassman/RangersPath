@@ -40,7 +40,7 @@ public class Game {
 		if (destination == player.getCurrentLocation())
 			Output.println("%s approached from the %s.", entity, NameType.INDEFINITE, direction.getOpposite(), NameType.INDEFINITE);
 
-		if (source == player.getCurrentLocation()) {
+		if (source == player.getCurrentLocation())
 			Output.println("%s left, heading %s.", entity, NameType.INDEFINITE, direction, NameType.INDEFINITE);
 	}
 	
