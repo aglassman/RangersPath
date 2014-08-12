@@ -9,12 +9,14 @@ import ranger.map.Direction;
 import ranger.map.Location;
 import ranger.name.Name;
 import ranger.name.Named;
+import ranger.time.EntityMove;
+import ranger.time.GameEvent;
 
 public class Entity implements Named {
 	
-	public void act(Game game, int time) {
+	public GameEvent getNextAction(Game game, long current) {
 		Direction move = Util.random(game.getRegion().getValidDirections(location));
-		game.moveEntity(this, move);
+		return new EntityMove(this, move, current + 15);
 	}
 	
 	public void setCurrentLocation(Location location) {
@@ -63,6 +65,14 @@ public class Entity implements Named {
 
 	public int getHealth() {
 		return health;
+	}
+	
+	public boolean isAlive() {
+		return health > 0;
+	}
+	
+	public boolean isDead() {
+		return health == 0;
 	}
 	
 	public double getPerception(Game game) {

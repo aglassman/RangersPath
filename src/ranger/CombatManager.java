@@ -6,6 +6,18 @@ import ranger.map.Location;
 import ranger.name.Name.NameType;
 
 public class CombatManager {
+	
+	public static void fight(Game game, Location location, Entity attacker, Entity defender) {
+		Battlefield battlefield = new Battlefield();
+		location.addFeature(battlefield);
+
+		boolean attackWasMade = false;
+		do {
+			attackWasMade = attack(attacker, defender, game, location, battlefield);
+			attackWasMade |= attack(defender, attacker, game, location, battlefield);
+		} while (attackWasMade && attacker.isAlive() && defender.isAlive());
+	}
+	
 	public static void playerAttacks(Game game, Entity player, Location location) {
 		Battlefield battlefield = new Battlefield();
 		location.addFeature(battlefield);
@@ -51,7 +63,7 @@ public class CombatManager {
 			defender.takeDamage(attacker.getEquip().getDamage());
 			attacked = true;
 		}
-		if (defender.getHealth() == 0) {
+		if (defender.isDead()) {
 			kill(attacker, defender, game, battlefield);
 		}
 		return attacked;

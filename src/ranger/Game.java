@@ -37,8 +37,10 @@ public class Game {
 		source.removeEntity(entity);
 		destination.addEntity(entity);
 		entity.setCurrentLocation(destination);
-		if (destination == player.getCurrentLocation())
+		if (destination == player.getCurrentLocation()) {
 			Output.println("%s approached from the %s.", entity, NameType.INDEFINITE, direction.getOpposite(), NameType.INDEFINITE);
+			CombatManager.fight(this, destination, entity, player);
+		}
 
 		if (source == player.getCurrentLocation())
 			Output.println("%s left, heading %s.", entity, NameType.INDEFINITE, direction, NameType.INDEFINITE);
@@ -55,9 +57,19 @@ public class Game {
 	}
 	
 	public void waitMinutes(int minutes) {
-		time.waitMinutes(minutes);
-		for (Entity e : entities)
-			e.act(this, minutes);
+		if (!time.hasNextEvent()) {
+			time.waitMinutes(minutes);
+		} else {		
+			long targetTime = time.getCurrentTime() + minutes;
+			
+			while (time.getCurrentTime() < targetTime) {
+				if (time.hasNextEvent()) {
+					time.doNextEvent(this);
+				} else {
+					time.waitMinutes(targetTime - time.getCurrentTime());
+				}
+			}
+		}
 	}
 
 	public void addEntity(Entity entity, Location location) {
@@ -81,7 +93,7 @@ public class Game {
 		time = new Time();
 		player = new Player();
 
-		Weapon dagger = new Weapon(new Name("dagger"), 10);
+		Weapon dagger = new Weapon(new Name("great sword"), 100);
 		player.setEquip(dagger);
 		player.getInventory().addItem(dagger);
 		
@@ -98,6 +110,9 @@ public class Game {
 		entities = new LinkedList<>();
 		region = Generator.newRegion(this);	
 		player.setCurrentLocation(region.getRandomLocation());
+		
+		for (Entity e : entities)
+			time.scheduleEvent(e.getNextAction(this, time.getCurrentTime()));
 	}
 	
 	private Time time;
