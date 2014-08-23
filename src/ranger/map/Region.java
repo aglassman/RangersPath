@@ -6,6 +6,13 @@ import java.util.List;
 
 public class Region {
 
+    public final int WIDTH;
+    public final int HEIGHT;
+
+    public Location getLocation(int row, int col) {
+        return locations[col][row];
+    }
+
 	public Location getRandomLocation() {
 		return locations[((int)Math.floor(Math.random() * WIDTH))][((int)Math.floor(Math.random() * HEIGHT))];
 	}
@@ -43,8 +50,6 @@ public class Region {
 		HEIGHT = height;
 		locations = new Location[WIDTH][HEIGHT];
 	}
-	
-	private final int WIDTH;
-	private final int HEIGHT;
+
 	private Location[][] locations;
 }

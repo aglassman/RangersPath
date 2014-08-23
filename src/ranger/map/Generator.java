@@ -39,7 +39,7 @@ public class Generator {
 			location.addFeature(new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago."));
 		
 		// Add some entities
-		if (Math.random() > 0.1) {
+		if (Math.random() < 0.1) {
 			game.addEntity(getEntity(), location);
 		}
 		
