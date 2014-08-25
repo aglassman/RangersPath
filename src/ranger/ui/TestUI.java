@@ -1,9 +1,12 @@
 package ranger.ui;
 
 import ranger.Game;
+import ranger.entity.Bear;
+import ranger.entity.Entity;
 import ranger.map.Location;
 import ranger.map.Region;
 import ranger.map.TerrainType;
+import ranger.map.Tracks;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,15 +29,24 @@ public class TestUI extends JFrame {
                     for (int col = 0; col<region.WIDTH; ++col) {
                         Location location = region.getLocation(row, col);
                         g.setColor(getColor(location.getTerrainType()));
-                        g.fillRect(col*width, row*width, width, width);
+                        g.fillRect(col * width, row * width, width, width);
 
                         if (!location.getEntities().isEmpty() || location == game.getPlayerLocation()) {
                             if (location == game.getPlayerLocation())
                                 g.setColor(Color.red);
                             else
-                               g.setColor(Color.black);
+                               g.setColor(getColor(location.getEntities().get(0)));
 
-                            g.fillOval(col*width + width/4, row*width + width/4, width/2, width/2);
+                            g.fillOval(col * width + width / 4, row * width + width / 4, width / 2, width / 2);
+                        } else {
+                            Tracks tracks = location.getRecentTracks();
+                            if (tracks != null && tracks.getAge() < 120) {
+                                int alpha = Math.max(0, 255  - ((int)(tracks.getAge()) / 30) * 64);
+                                Color color = getColor(tracks.getEntity());
+                                Color faded = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+                                g.setColor(faded);
+                                g.drawOval(col * width + width / 4, row * width + width / 4, width / 2, width / 2);
+                            }
                         }
                     }
                 }
@@ -47,6 +59,13 @@ public class TestUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private Color getColor(Entity entity) {
+        if (entity instanceof Bear)
+            return new Color(106, 66, 15);
+
+        return Color.BLACK;
     }
 
     private Color getColor(TerrainType terrain) {

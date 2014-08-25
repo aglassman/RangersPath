@@ -70,6 +70,9 @@ public class Game {
 				}
 			}
 		}
+
+        // Pass time in the map (to age tracks, grow plants, etc)
+        region.age(minutes);
 	}
 
 	public void addEntity(Entity entity, Location location) {

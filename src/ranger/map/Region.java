@@ -44,7 +44,14 @@ public class Region {
 	public void setLocation(Location location, int x, int y) {
 		locations[x][y] = location;
 	}
-	
+
+    public void age(long time) {
+        for (int row = 0; row<WIDTH; ++row) {
+            for (int col = 0; col<HEIGHT; ++col)
+                locations[col][row].age(time);
+        }
+    }
+
 	public Region(int width, int height) {
 		WIDTH = width;
 		HEIGHT = height;

@@ -1,6 +1,7 @@
 package ranger.map;
 
 import ranger.Game;
+import ranger.entity.Bear;
 import ranger.entity.Entity;
 import ranger.hunting.HuntManager;
 import ranger.item.Item;
@@ -15,11 +16,11 @@ public class Generator {
 		Region region = new Region(width, height);
 		
 		for (int x = 0; x<width; ++x) {
-			for (int y = 0; y<height; ++y) {
-				Location l = addLocation(game, x, y);
-				region.setLocation(l, x, y);
-			}
-		}
+            for (int y = 0; y<height; ++y) {
+                Location l = addLocation(game, x, y);
+                region.setLocation(l, x, y);
+            }
+        }
 		
 		return region;
 	}
@@ -37,11 +38,16 @@ public class Generator {
 		// Add some features
 		if (Math.random() > 0.1)
 			location.addFeature(new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago."));
-		
-		// Add some entities
-		if (Math.random() < 0.1) {
-			game.addEntity(getEntity(), location);
-		}
+
+        // Add some enemies
+        if (Math.random() < 0.1) {
+            game.addEntity(getEntity(), location);
+        }
+
+        // Add some bears
+        if (Math.random() < 0.1) {
+            game.addEntity(new Bear(), location);
+        }
 		
 		// Add some items to the features
 		for (Feature f : location.getFeatures())

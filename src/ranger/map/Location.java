@@ -9,8 +9,17 @@ import ranger.name.Name;
 import ranger.name.Named;
 
 public class Location implements Named {
-	
-	public String describe() {
+
+    public void age(long time) {
+        if (recentTracks != null)
+            recentTracks.age(time);
+    }
+
+    public Tracks getRecentTracks() {
+        return recentTracks;
+    }
+
+    public String describe() {
 		return description;
 	}
 	
@@ -50,6 +59,9 @@ public class Location implements Named {
 	
 	public void removeEntity(Entity e) {
 		entities.remove(e);
+
+        // TODO these tracks should have an initial age
+        recentTracks = new Tracks(e);
 	}
 
 	public Entity getEntity(String name) {
@@ -85,4 +97,5 @@ public class Location implements Named {
 	private String description;
 	private List<Feature> features;
 	private List<Entity> entities;
+    private Tracks recentTracks;
 }
