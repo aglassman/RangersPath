@@ -1,5 +1,8 @@
 package ranger.map;
 
+import map.HeightMap;
+import map.MapGenerator;
+import map.voronoi.VoronoiContinent;
 import ranger.Game;
 import ranger.entity.Bear;
 import ranger.entity.Entity;
@@ -9,43 +12,52 @@ import ranger.item.weapon.Ammo;
 import ranger.item.weapon.Weapon;
 import ranger.name.Name;
 
+import java.util.Random;
+
 public class Generator {
 	public static Region newRegion(Game game) {
 		int width = 30;
 		int height = 30;
+
+        Random dice = new Random();
+
+        // Generate a height map
+        MapGenerator generator = new VoronoiContinent(50);
+        HeightMap map = generator.generate(dice, width, height);
+
 		Region region = new Region(width, height);
-		
-		for (int x = 0; x<width; ++x) {
-            for (int y = 0; y<height; ++y) {
-                Location l = addLocation(game, x, y);
-                region.setLocation(l, x, y);
+		for (int col = 0; col<width; ++col) {
+            for (int row = 0; row<height; ++row) {
+                Location location;
+
+                float h = map.get(row, col);
+                if (h > 0.7)
+                    location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", col, row);
+                else if (h > 0.2)
+                    location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", col, row);
+                else
+                    location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", col, row);
+
+                region.setLocation(location, col, row);
+                addFeatures(game, location, dice);
             }
         }
 		
 		return region;
 	}
 	
-	private static Location addLocation(Game game, int x, int y) {
-		Location location;
-		double typeDice = Math.random();
-		if (typeDice > 0.5)
-			location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", x, y);
-		else if (typeDice > 0.2)
-			location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", x, y);
-		else
-			location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", x, y);
-		
+	private static Location addFeatures(Game game, Location location, Random dice) {
 		// Add some features
-		if (Math.random() > 0.1)
+		if (dice.nextDouble() > 0.1)
 			location.addFeature(new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago."));
 
         // Add some enemies
-        if (Math.random() < 0.1) {
+        if (dice.nextDouble() < 0.1) {
             game.addEntity(getEntity(), location);
         }
 
         // Add some bears
-        if (Math.random() < 0.1) {
+        if (dice.nextDouble() < 0.1) {
             game.addEntity(new Bear(), location);
         }
 		
