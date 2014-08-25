@@ -44,7 +44,8 @@ public class Parser {
 		registerCommand(new LookCommand());
 		registerCommand(new Quit());
 		registerCommand(new SearchCommand());
-		registerCommand(new TimeCommand());
+        registerCommand(new TimeCommand());
+        registerCommand(new TrackCommand());
 		registerCommand(new WaitCommand());
 		registerCommand(new WanderCommand());
 		
