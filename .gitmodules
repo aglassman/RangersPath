@@ -1,0 +1,3 @@
+[submodule "MapGen"]
+	path = MapGen
+	url = https://github.com/jbauschatz/MapGen.git
