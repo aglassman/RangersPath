@@ -5,8 +5,10 @@ import jmotion.tilegame.TileScreenPanel;
 import jmotion.tilegame.model.Map;
 import ranger.Game;
 import ranger.entity.Bear;
+import ranger.map.Direction;
 import ranger.tilegame.GameTile;
 import ranger.tilegame.PhysicalEntity;
+import ranger.tilegame.TiledGame;
 import ranger.tilegame.TiledLocation;
 
 import java.awt.*;
@@ -15,9 +17,10 @@ import java.awt.event.KeyListener;
 
 public class RangerTileUI extends TileScreenPanel<GameTile> {
 
-    public RangerTileUI(Game game) {
+    public RangerTileUI(TiledGame game) {
         super(30);
         this.game = game;
+        setMap(game.getCurrentLocation());
 
         addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent keyEvent) {
@@ -83,18 +86,33 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         if (keyUp)
             dy -= player.walkSpeed;
         location.getPlayerEntity().move(0, dy);
+
+        // Move the player to the next screen
+        Direction dir = null;
+        if (player.getX() < 0)
+            dir = Direction.WEST;
+        else if (player.getX() >= location.REAL_WIDTH)
+            dir = Direction.EAST;
+        else if (player.getY() < 0)
+            dir = Direction.NORTH;
+        else if (player.getY() >= location.REAL_HEIGHT)
+            dir = Direction.SOUTH;
+        if (dir != null) {
+            game.movePlayer(dir);
+            setMap(game.getCurrentLocation());
+        }
     }
 
     private Color getColor(PhysicalEntity entity) {
         if (entity.entity instanceof Bear)
             return new Color(106, 66, 15);
-        if (entity.entity == game.getPlayer())
+        if (entity.entity == game.getGame().getPlayer())
             return Color.RED;
         return Color.BLACK; // Goblins, other enemies
     }
 
     private TiledLocation location;
-    private Game game;
+    private TiledGame game;
 
     private boolean keyRight;
     private boolean keyLeft;

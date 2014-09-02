@@ -10,8 +10,7 @@ public class Main {
         Game game = new Game();
         TiledGame tiledGame = new TiledGame(game);
 
-        RangerTileUI ui = new RangerTileUI(game);
-        ui.setMap(tiledGame.getCurrentLocation());
+        RangerTileUI ui = new RangerTileUI(tiledGame);
 
         JFrame window = new JFrame();
         window.setSize(1000, 1000);
