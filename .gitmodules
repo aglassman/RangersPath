@@ -1,3 +1,6 @@
 [submodule "MapGen"]
 	path = MapGen
 	url = https://github.com/jbauschatz/MapGen.git
+[submodule "JMotion"]
+	path = JMotion
+	url = https://github.com/jbauschatz/JMotion.git

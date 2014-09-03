@@ -1,8 +1,8 @@
 package ranger.map;
 
-import map.HeightMap;
-import map.MapGenerator;
-import map.voronoi.VoronoiContinent;
+import mapgen.map.HeightMap;
+import mapgen.map.MapGenerator;
+import mapgen.map.voronoi.VoronoiContinent;
 import ranger.Game;
 import ranger.entity.Bear;
 import ranger.entity.Entity;
