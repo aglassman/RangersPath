@@ -8,12 +8,9 @@ public class PhysicalEntity extends Physical {
     public final Entity entity;
     public int walkSpeed;
 
-    public PhysicalEntity(Entity entity, TiledLocation location) {
+    public PhysicalEntity(Entity entity) {
         this.entity = entity;
 
         walkSpeed = 4;
-
-        x = (int)(Math.random() * location.REAL_WIDTH);
-        y = (int)(Math.random() * location.REAL_HEIGHT);
     }
 }

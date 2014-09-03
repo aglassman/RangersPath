@@ -71,36 +71,41 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     }
 
     protected void advanceFrame(int millis) {
-        PhysicalEntity player = location.getPlayerEntity();
+        PhysicalEntity player = game.getPlayer();
         // Move the player
         int dx = 0;
         if (keyRight)
             dx += player.walkSpeed;
         if (keyLeft)
             dx -= player.walkSpeed;
-        location.getPlayerEntity().move(dx, 0);
+        player.move(dx, 0);
 
         int dy = 0;
         if (keyDown)
             dy += player.walkSpeed;
         if (keyUp)
             dy -= player.walkSpeed;
-        location.getPlayerEntity().move(0, dy);
+        player.move(0, dy);
 
         // Move the player to the next screen
-        Direction dir = null;
+        Direction horizontalDir = null;
         if (player.getX() < 0)
-            dir = Direction.WEST;
+            horizontalDir = Direction.WEST;
         else if (player.getX() >= location.REAL_WIDTH)
-            dir = Direction.EAST;
-        else if (player.getY() < 0)
-            dir = Direction.NORTH;
+            horizontalDir = Direction.EAST;
+        if (horizontalDir != null)
+            game.movePlayer(horizontalDir);
+
+        Direction verticalDir = null;
+        if (player.getY() < 0)
+            verticalDir = Direction.NORTH;
         else if (player.getY() >= location.REAL_HEIGHT)
-            dir = Direction.SOUTH;
-        if (dir != null) {
-            game.movePlayer(dir);
+            verticalDir = Direction.SOUTH;
+        if (verticalDir != null)
+            game.movePlayer(verticalDir);
+
+        if (horizontalDir != null || verticalDir != null)
             setMap(game.getCurrentLocation());
-        }
     }
 
     private Color getColor(PhysicalEntity entity) {

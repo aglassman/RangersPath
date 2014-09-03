@@ -2,7 +2,6 @@ package ranger.tilegame;
 
 import jmotion.tilegame.model.Map;
 import jmotion.tilegame.model.PhysicalSpace;
-import ranger.Game;
 import ranger.entity.Entity;
 import ranger.map.Location;
 
@@ -18,21 +17,13 @@ public class TiledLocation extends Map<GameTile> {
         return entities;
     }
 
-    public PhysicalEntity getPlayerEntity() {
-        return player;
-    }
-
     public void addPhysicalEntity(PhysicalEntity entity) {
         entities.add(entity);
         space.addPhysical(entity);
-
-        if (entity.entity == game.getPlayer())
-            player = entity;
     }
 
-    public TiledLocation(Game game, Location location) {
+    public TiledLocation(Location location) {
         super(25, 25, 30);
-        this.game = game;
 
         REAL_WIDTH = WIDTH * TILE_WIDTH;
         REAL_HEIGHT = HEIGHT * TILE_WIDTH;
@@ -45,13 +36,8 @@ public class TiledLocation extends Map<GameTile> {
         }
 
         entities = new LinkedList<>();
-        for (Entity e : location.getEntities()) {
-            addPhysicalEntity(new PhysicalEntity(e, this));
-        }
     }
 
-    private Game game;
     private PhysicalSpace space;
     private List<PhysicalEntity> entities;
-    private PhysicalEntity player;
 }

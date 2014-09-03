@@ -3,14 +3,14 @@ package ranger.tilegame;
 import map.HeightMap;
 import map.MapGenerator;
 import map.voronoi.VoronoiContinent;
-import ranger.Game;
+import ranger.entity.Entity;
 import ranger.map.Location;
 
 import java.util.Random;
 
 public class TiledLocationGenerator {
     public TiledLocation generate(Location location) {
-        TiledLocation tiled = new TiledLocation(game, location);
+        TiledLocation tiled = new TiledLocation(location);
         MapGenerator generator = new VoronoiContinent(30);
         HeightMap heightMap = generator.generate(new Random(), tiled.WIDTH, tiled.HEIGHT);
 
@@ -37,16 +37,19 @@ public class TiledLocationGenerator {
 
         fillLocation(tiled, heightMap, terrains, cutoffs);
 
-        // TODO the generator should place the entities within the tiles
-
-        // HACK: The Player, as an entity, should already be in the Location
-        tiled.addPhysicalEntity(new PhysicalEntity(game.getPlayer(), tiled));
+        for (Entity e : location.getEntities()) {
+            PhysicalEntity p = new PhysicalEntity(e);
+            // TODO this position should be based on some saved state or activity history, not randomly
+            int x = (int)(Math.random() * tiled.REAL_WIDTH);
+            int y = (int)(Math.random() * tiled.REAL_HEIGHT);
+            p.setLocation(x, y);
+            tiled.addPhysicalEntity(p);
+        }
 
         return tiled;
     }
 
-    public TiledLocationGenerator(Game game) {
-        this.game = game;
+    public TiledLocationGenerator() {
     }
 
     private void fillLocation(TiledLocation tiled, HeightMap map, TiledTerrain[] terrains, float[] cutoffs) {
@@ -63,6 +66,4 @@ public class TiledLocationGenerator {
             }
         }
     }
-
-    private Game game;
 }
