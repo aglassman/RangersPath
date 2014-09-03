@@ -5,7 +5,7 @@ import ranger.name.Name;
 import ranger.name.Named;
 
 public enum Direction implements Named {
-	NORTH("North") {
+    NORTH("North") {
 		public Direction getOpposite() {
 			return SOUTH;
 		}
@@ -25,6 +25,19 @@ public enum Direction implements Named {
 			return EAST;
 		}
 	};
+
+    public static Direction getDirection(int x, int y) {
+        if (x > 0)
+            return EAST;
+        else if (x < 0)
+            return WEST;
+        else if (y < 0)
+            return NORTH;
+        else if (y > 0)
+            return SOUTH;
+
+        return null;
+    }
 
 	public abstract Direction getOpposite();
 	

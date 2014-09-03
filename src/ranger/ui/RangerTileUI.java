@@ -2,8 +2,6 @@
 package ranger.ui;
 
 import jmotion.tilegame.TileScreenPanel;
-import jmotion.tilegame.model.Map;
-import ranger.Game;
 import ranger.entity.Bear;
 import ranger.map.Direction;
 import ranger.tilegame.GameTile;
@@ -14,6 +12,7 @@ import ranger.tilegame.TiledLocation;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
 
 public class RangerTileUI extends TileScreenPanel<GameTile> {
 
@@ -44,7 +43,9 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         super.setMap(location);
         this.location = location;
 
-        // TODO create sprites for each of the entities
+        sprites = new HashMap<>();
+        for (PhysicalEntity e : location.getEntities())
+            sprites.put(e, new EntitySprite(e, game));
     }
 
     protected void drawTile(Graphics2D g, int x, int y, int row, int col, GameTile tile) {
@@ -64,10 +65,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
 
     protected void renderForeground(Graphics2D g) {
         // Draw sprites
-        for (PhysicalEntity e : location.getEntities()) {
-            g.setColor(getColor(e));
-            g.fillOval(e.getX() - 5, e.getY() - 5, 10, 10);
-        }
+        for (PhysicalEntity e : location.getEntities())
+            sprites.get(e).render(g);
     }
 
     protected void advanceFrame(int millis) {
@@ -78,14 +77,14 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
             dx += player.walkSpeed;
         if (keyLeft)
             dx -= player.walkSpeed;
-        player.move(dx, 0);
 
         int dy = 0;
         if (keyDown)
             dy += player.walkSpeed;
         if (keyUp)
             dy -= player.walkSpeed;
-        player.move(0, dy);
+
+        player.move(dx, dy);
 
         // Move the player to the next screen
         Direction horizontalDir = null;
@@ -108,16 +107,9 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
             setMap(game.getCurrentLocation());
     }
 
-    private Color getColor(PhysicalEntity entity) {
-        if (entity.entity instanceof Bear)
-            return new Color(106, 66, 15);
-        if (entity.entity == game.getGame().getPlayer())
-            return Color.RED;
-        return Color.BLACK; // Goblins, other enemies
-    }
-
     private TiledLocation location;
     private TiledGame game;
+    private HashMap<PhysicalEntity, EntitySprite> sprites;
 
     private boolean keyRight;
     private boolean keyLeft;
