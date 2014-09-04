@@ -12,7 +12,8 @@ public class TiledLocationGenerator {
     public TiledLocation generate(Location location) {
         TiledLocation tiled = new TiledLocation(location);
         MapGenerator generator = new VoronoiContinent(30);
-        HeightMap heightMap = generator.generate(new Random(), tiled.WIDTH, tiled.HEIGHT);
+        Random seededRandom = new Random(location.getSeed());
+        HeightMap heightMap = generator.generate(seededRandom, tiled.WIDTH, tiled.HEIGHT);
 
         TiledTerrain[] terrains;
         float[] cutoffs;

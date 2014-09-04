@@ -29,14 +29,15 @@ public class Generator {
 		for (int col = 0; col<width; ++col) {
             for (int row = 0; row<height; ++row) {
                 Location location;
+                long locationSeed = dice.nextLong();
 
                 float h = map.get(row, col);
                 if (h > 0.7)
-                    location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", col, row);
+                    location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", col, row, locationSeed);
                 else if (h > 0.2)
-                    location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", col, row);
+                    location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", col, row, locationSeed);
                 else
-                    location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", col, row);
+                    location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", col, row, locationSeed);
 
                 region.setLocation(location, col, row);
                 addFeatures(game, location, dice);

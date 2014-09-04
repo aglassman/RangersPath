@@ -10,6 +10,10 @@ import ranger.name.Named;
 
 public class Location implements Named {
 
+    public long getSeed() {
+        return seed;
+    }
+
     public void age(long time) {
         if (recentTracks != null)
             recentTracks.age(time);
@@ -80,12 +84,13 @@ public class Location implements Named {
 		return terrain;
 	}
 	
-	public Location(Name name, TerrainType terrain, String description, int x, int y) {
+	public Location(Name name, TerrainType terrain, String description, int x, int y, long seed) {
 		this.name = name;
 		this.terrain = terrain;
 		this.description = description;
 		this.x = x;
 		this.y = y;
+        this.seed = seed;
 		features = new LinkedList<>();
 		entities = new LinkedList<>();
 	}
@@ -98,4 +103,5 @@ public class Location implements Named {
 	private List<Feature> features;
 	private List<Entity> entities;
     private Tracks recentTracks;
+    private long seed;
 }
