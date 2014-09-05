@@ -46,7 +46,7 @@ public class TiledLocation extends Map<GameTile> {
     }
 
     public TiledLocation(Location location) {
-        super(25, 25, 30);
+        super(20, 20, 40);
 
         visibility = new Visibility(this);
 

@@ -3,7 +3,6 @@ package ranger.ui;
 
 import jmotion.tilegame.TileScreenPanel;
 import jmotion.tilegame.model.TileCoord;
-import ranger.entity.Bear;
 import ranger.map.Direction;
 import ranger.tilegame.GameTile;
 import ranger.tilegame.PhysicalEntity;
@@ -19,9 +18,13 @@ import java.util.HashSet;
 public class RangerTileUI extends TileScreenPanel<GameTile> {
 
     public RangerTileUI(TiledGame game) {
-        super(30);
+        super(40);
         this.game = game;
         setMap(game.getCurrentLocation());
+
+        GRASS = game.SPRITE_LOADER.readImage("grass.png");
+        BRUSH = game.SPRITE_LOADER.readImage("trees.png");
+        ROCKS = game.SPRITE_LOADER.readImage("rock.png");
 
         addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent keyEvent) {
@@ -51,18 +54,19 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     }
 
     protected void drawTile(Graphics2D g, int x, int y, int row, int col, GameTile tile) {
+        Image image = null;
         switch (tile.terrain) {
             case UNDERBRUSH:
-                g.setColor(new Color(10, 42, 10));
+                image = BRUSH;
                 break;
             case GRASS:
-                g.setColor(Color.GREEN);
+                image = GRASS;
                 break;
             case ROCKS:
-                g.setColor(Color.GRAY);
+                image = ROCKS;
                 break;
         }
-        g.fillRect(x, y, tileWidth, tileWidth);
+        g.drawImage(image, x, y, null);
     }
 
     protected void renderForeground(Graphics2D g) {
@@ -126,6 +130,10 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         if (horizontalDir != null || verticalDir != null)
             setMap(game.getCurrentLocation());
     }
+
+    private final Image GRASS;
+    private final Image BRUSH;
+    private final Image ROCKS;
 
     private TiledLocation location;
     private TiledGame game;
