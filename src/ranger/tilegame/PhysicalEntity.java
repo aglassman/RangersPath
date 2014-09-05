@@ -13,13 +13,11 @@ public class PhysicalEntity extends Physical {
     public int xMoved; // amount moved this frame in x
     public int yMoved; // amount moved this frame in y
 
-    @Override
-    public void move(int dX, int dY) {
-        super.move(dX, dY);
-        xMoved = dX;
-        yMoved = dY;
+    public void tryWalk(int dx, int dy) {
+        xMoved = dx;
+        yMoved = dy;
 
-        Direction dirMoved = Direction.getDirection(dX, dY);
+        Direction dirMoved = Direction.getDirection(dx, dy);
         if (dirMoved != null)
             facing = dirMoved;
     }
@@ -27,7 +25,7 @@ public class PhysicalEntity extends Physical {
     public PhysicalEntity(Entity entity) {
         this.entity = entity;
 
-        walkSpeed = 4;
+        walkSpeed = 6;
         facing = Direction.SOUTH; // TODO this should be randomized, by the generator
     }
 }

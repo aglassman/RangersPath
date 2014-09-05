@@ -22,8 +22,29 @@ public class TiledLocation extends Map<GameTile> {
         space.addPhysical(entity);
     }
 
+    public void tryEntityWalk(PhysicalEntity entity, int dx, int dy) {
+        GameTile tile = get(getCoord(entity.getX(), entity.getY()));
+        int difficulty = tile.terrain.difficulty;
+
+        // Pass the desired move to the entity before we modify it
+        // Their animation should express the intent of their movement, not the result
+        entity.tryWalk(dx, dy);
+
+        if (dx > 0)
+            dx = Math.max(0, dx - difficulty);
+        else
+            dx = Math.min(0, dx + difficulty);
+        if (dy > 0)
+            dy = Math.max(0, dy - difficulty);
+        else
+            dy = Math.min(0, dy + difficulty);
+
+        space.moveObject(entity, dx, dy);
+    }
+
     public TiledLocation(Location location) {
         super(25, 25, 30);
+        this.location = location;
 
         REAL_WIDTH = WIDTH * TILE_WIDTH;
         REAL_HEIGHT = HEIGHT * TILE_WIDTH;
@@ -40,4 +61,5 @@ public class TiledLocation extends Map<GameTile> {
 
     private PhysicalSpace space;
     private List<PhysicalEntity> entities;
+    private Location location;
 }

@@ -84,7 +84,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         if (keyUp)
             dy -= player.walkSpeed;
 
-        player.move(dx, dy);
+        location.tryEntityWalk(player, dx, dy);
 
         // Move the player to the next screen
         Direction horizontalDir = null;
