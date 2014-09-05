@@ -1,10 +1,13 @@
 package ranger.tilegame;
 
+import jmotion.tilegame.model.Physical;
 import mapgen.map.HeightMap;
 import mapgen.map.MapGenerator;
 import mapgen.map.voronoi.VoronoiContinent;
 import ranger.entity.Entity;
+import ranger.map.Feature;
 import ranger.map.Location;
+import ranger.tilegame.object.Campfire;
 
 import java.util.Random;
 
@@ -38,6 +41,7 @@ public class TiledLocationGenerator {
 
         fillLocation(tiled, heightMap, terrains, cutoffs);
 
+        // Add PhysicalEntities wrapping the Entities
         for (Entity e : location.getEntities()) {
             PhysicalEntity p = new PhysicalEntity(e);
             // TODO this position should be based on some saved state or activity history, not randomly
@@ -45,6 +49,16 @@ public class TiledLocationGenerator {
             int y = (int)(Math.random() * tiled.REAL_HEIGHT);
             p.setLocation(x, y);
             tiled.addPhysicalEntity(p);
+        }
+
+        // Flesh out any Features here
+        for (Feature f : location.getFeatures()) {
+            // TODO this campfire is a placeholder
+            Campfire campfire = new Campfire();
+            int x = (int)(Math.random() * tiled.REAL_WIDTH);
+            int y = (int)(Math.random() * tiled.REAL_HEIGHT);
+            campfire.setLocation(x, y);
+            tiled.addPhysical(campfire);
         }
 
         return tiled;

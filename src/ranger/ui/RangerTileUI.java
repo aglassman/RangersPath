@@ -1,7 +1,9 @@
 
 package ranger.ui;
 
+import jmotion.sprite.Sprite;
 import jmotion.tilegame.TileScreenPanel;
+import jmotion.tilegame.model.Physical;
 import jmotion.tilegame.model.TileCoord;
 import ranger.map.Direction;
 import ranger.tilegame.GameTile;
@@ -49,8 +51,12 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         this.location = location;
 
         sprites = new HashMap<>();
-        for (PhysicalEntity e : location.getEntities())
-            sprites.put(e, new EntitySprite(e, game));
+        for (Physical p : location.getPhysicals()) {
+            if (p instanceof PhysicalEntity)
+                sprites.put(p, new EntitySprite((PhysicalEntity)p, game));
+            else
+                sprites.put(p, new ObjectSprite(p, game));
+        }
     }
 
     protected void drawTile(Graphics2D g, int x, int y, int row, int col, GameTile tile) {
@@ -84,12 +90,11 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 }
             }
         }
-
         // Draw sprites
-        for (PhysicalEntity e : location.getEntities()) {
-            TileCoord entityLocation = location.getCoord(e.getX(), e.getY());
-            if (visible.contains(entityLocation))
-                sprites.get(e).render(g);
+        for (Physical p : location.getPhysicals()) {
+            TileCoord physicalLocation = location.getCoord(p.getX(), p.getY());
+            if (visible.contains(physicalLocation))
+                sprites.get(p).render(g);
         }
     }
 
@@ -137,7 +142,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
 
     private TiledLocation location;
     private TiledGame game;
-    private HashMap<PhysicalEntity, EntitySprite> sprites;
+    private HashMap<Physical, Sprite> sprites;
 
     private boolean keyRight;
     private boolean keyLeft;

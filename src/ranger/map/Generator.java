@@ -49,7 +49,7 @@ public class Generator {
 	
 	private static Location addFeatures(Game game, Location location, Random dice) {
 		// Add some features
-		if (dice.nextDouble() > 0.1)
+		if (dice.nextDouble() < 0.2)
 			location.addFeature(new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago."));
 
         // Add some enemies
