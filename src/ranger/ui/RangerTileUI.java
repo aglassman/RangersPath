@@ -2,6 +2,7 @@
 package ranger.ui;
 
 import jmotion.tilegame.TileScreenPanel;
+import jmotion.tilegame.model.TileCoord;
 import ranger.entity.Bear;
 import ranger.map.Direction;
 import ranger.tilegame.GameTile;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class RangerTileUI extends TileScreenPanel<GameTile> {
 
@@ -64,9 +66,27 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     }
 
     protected void renderForeground(Graphics2D g) {
+        PhysicalEntity player = game.getPlayer();
+        TileCoord c = location.getCoord(player.getX(), player.getY());
+
+        // Draw fog
+        HashSet<TileCoord> visible = location.getVisibility().getVisibleCoords(player, c.row, c.col);
+        for (int row = 0; row<location.WIDTH; ++row) {
+            for (int col = 0; col<location.HEIGHT; ++col) {
+                if (!visible.contains(new TileCoord(row, col))) {
+                    Color fog = new Color(55, 55, 55, 100);
+                    g.setColor(fog);
+                    g.fillRect(col*tileWidth, row*tileWidth, tileWidth, tileWidth);
+                }
+            }
+        }
+
         // Draw sprites
-        for (PhysicalEntity e : location.getEntities())
-            sprites.get(e).render(g);
+        for (PhysicalEntity e : location.getEntities()) {
+            TileCoord entityLocation = location.getCoord(e.getX(), e.getY());
+            if (visible.contains(entityLocation))
+                sprites.get(e).render(g);
+        }
     }
 
     protected void advanceFrame(int millis) {

@@ -2,7 +2,6 @@ package ranger.tilegame;
 
 import jmotion.tilegame.model.Map;
 import jmotion.tilegame.model.PhysicalSpace;
-import ranger.entity.Entity;
 import ranger.map.Location;
 
 import java.util.LinkedList;
@@ -42,9 +41,14 @@ public class TiledLocation extends Map<GameTile> {
         space.moveObject(entity, dx, dy);
     }
 
+    public Visibility getVisibility() {
+        return visibility;
+    }
+
     public TiledLocation(Location location) {
         super(25, 25, 30);
-        this.location = location;
+
+        visibility = new Visibility(this);
 
         REAL_WIDTH = WIDTH * TILE_WIDTH;
         REAL_HEIGHT = HEIGHT * TILE_WIDTH;
@@ -61,5 +65,5 @@ public class TiledLocation extends Map<GameTile> {
 
     private PhysicalSpace space;
     private List<PhysicalEntity> entities;
-    private Location location;
+    private Visibility visibility;
 }
