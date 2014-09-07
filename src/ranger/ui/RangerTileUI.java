@@ -6,10 +6,7 @@ import jmotion.tilegame.TileScreenPanel;
 import jmotion.tilegame.model.Physical;
 import jmotion.tilegame.model.TileCoord;
 import ranger.map.Direction;
-import ranger.tilegame.GameTile;
-import ranger.tilegame.PhysicalEntity;
-import ranger.tilegame.TiledGame;
-import ranger.tilegame.TiledLocation;
+import ranger.tilegame.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -54,6 +51,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         for (Physical p : location.getPhysicals()) {
             if (p instanceof PhysicalEntity)
                 sprites.put(p, new EntitySprite((PhysicalEntity)p, game));
+            else if (p instanceof PhysicalItem)
+                sprites.put(p, new ItemSprite((PhysicalItem)p, game));
             else
                 sprites.put(p, new ObjectSprite(p, game));
         }

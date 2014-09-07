@@ -4,6 +4,8 @@ import jmotion.tilegame.model.Map;
 import jmotion.tilegame.model.Physical;
 import ranger.map.Location;
 
+import java.awt.*;
+
 public class TiledLocation extends Map<GameTile> {
 
     public final int REAL_WIDTH; // Total width of the space in pixels
@@ -39,6 +41,14 @@ public class TiledLocation extends Map<GameTile> {
 
     public Visibility getVisibility() {
         return visibility;
+    }
+
+    /**
+     * Whether a point (in pixel-space, not a tile coordinate) is contained within the bounds
+     */
+    public boolean contains(Point p) {
+        return p.x >= 0 && p.x < REAL_WIDTH
+            && p.y >= 0 && p.y < REAL_HEIGHT;
     }
 
     public TiledLocation(Location location) {

@@ -1,14 +1,17 @@
 package ranger.tilegame;
 
 import jmotion.tilegame.model.Physical;
+import jmotion.tilegame.model.TileCoord;
 import mapgen.map.HeightMap;
 import mapgen.map.MapGenerator;
 import mapgen.map.voronoi.VoronoiContinent;
 import ranger.entity.Entity;
+import ranger.item.Item;
 import ranger.map.Feature;
 import ranger.map.Location;
 import ranger.tilegame.object.Campfire;
 
+import java.awt.*;
 import java.util.Random;
 
 public class TiledLocationGenerator {
@@ -52,14 +55,8 @@ public class TiledLocationGenerator {
         }
 
         // Flesh out any Features here
-        for (Feature f : location.getFeatures()) {
-            // TODO this campfire is a placeholder
-            Campfire campfire = new Campfire();
-            int x = (int)(Math.random() * tiled.REAL_WIDTH);
-            int y = (int)(Math.random() * tiled.REAL_HEIGHT);
-            campfire.setLocation(x, y);
-            tiled.addPhysical(campfire);
-        }
+        for (Feature f : location.getFeatures())
+            generateFeature(f, tiled, seededRandom);
 
         return tiled;
     }
@@ -80,5 +77,39 @@ public class TiledLocationGenerator {
                 tiled.get(row, col).terrain = terrains[i];
             }
         }
+    }
+
+    private void generateFeature(Feature feature, TiledLocation location, Random random) {
+        // TODO this campfire is a placeholder
+        Campfire campfire = new Campfire();
+
+        Point position = randomCoords(location, random);
+        campfire.setLocation(position.x, position.y);
+        location.addPhysical(campfire);
+
+        for (Item item : feature.getInventory().getItems()) {
+            Point itemLocation = randomCoords(position, 3*location.TILE_WIDTH, location, random);
+            PhysicalItem physicalItem = new PhysicalItem(item);
+            physicalItem.setLocation(itemLocation.x, itemLocation.y);
+            location.addPhysical(physicalItem);
+        }
+    }
+
+    private Point randomCoords(TiledLocation location, Random random) {
+        int x = random.nextInt(location.REAL_WIDTH);
+        int y = random.nextInt(location.REAL_HEIGHT);
+
+        return new Point(x, y);
+    }
+
+    private Point randomCoords(Point origin, int maxRadius, TiledLocation location, Random random) {
+        Point p;
+        do {
+            int xOffset = random.nextInt(2*maxRadius + 1) - maxRadius;
+            int yOffset = random.nextInt(2*maxRadius + 1) - maxRadius;
+            p = new Point(origin.x + xOffset, origin.y + yOffset);
+        } while (!location.contains(p));
+
+        return p;
     }
 }
