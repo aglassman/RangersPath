@@ -15,11 +15,9 @@ import ranger.name.Name;
 import java.util.Random;
 
 public class Generator {
-	public static Region newRegion(Game game) {
+	public static Region newRegion(Game game, Random dice) {
 		int width = 30;
 		int height = 30;
-
-        Random dice = new Random();
 
         // Generate a height map
         MapGenerator generator = new VoronoiContinent(50);
@@ -47,32 +45,32 @@ public class Generator {
 		return region;
 	}
 	
-	private static Location addFeatures(Game game, Location location, Random dice) {
+	private static Location addFeatures(Game game, Location location, Random random) {
 		// Add some features
-		if (dice.nextDouble() < 0.2)
+		if (random.nextDouble() < 0.2)
 			location.addFeature(new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago."));
 
         // Add some enemies
-        if (dice.nextDouble() < 0.1) {
-            game.addEntity(getEntity(), location);
+        if (random.nextDouble() < 0.1) {
+            game.addEntity(getEntity(random), location);
         }
 
         // Add some bears
-        if (dice.nextDouble() < 0.1) {
+        if (random.nextDouble() < 0.1) {
             game.addEntity(new Bear(), location);
         }
 		
 		// Add some items to the features
 		for (Feature f : location.getFeatures())
-			addItems(f);
+			addItems(f, random);
 		
 		return location;
 	}
 	
-	private static Entity getEntity() {
+	private static Entity getEntity(Random random) {
 		Entity goblin = new Entity(new Name("Goblin"), true);
 		
-		if (Math.random() > 0.4) {
+		if (random.nextDouble() > 0.4) {
 			Weapon shortSword = new Weapon(new Name("short sword"), 20);
 			goblin.getInventory().addItem(shortSword);
 			goblin.setEquip(shortSword);
@@ -91,12 +89,12 @@ public class Generator {
 		return goblin;
 	}
 	
-	private static void addItems(Feature f) {
-		if (Math.random() < 0.3)
+	private static void addItems(Feature f, Random random) {
+		if (random.nextDouble() < 0.3)
 			f.getInventory().addItem(HuntManager.getRabbit());
-		if (Math.random() < 0.4)
+		if (random.nextDouble() < 0.4)
 			f.getInventory().addItem(HuntManager.getQuail());
-		if (Math.random() < 0.3)
-			f.getInventory().addItem(new Item("arrowhead", (int)Math.floor(Math.random()*20)));
+		if (random.nextDouble() < 0.3)
+			f.getInventory().addItem(new Item("arrowhead", random.nextInt(20)));
 	}
 }

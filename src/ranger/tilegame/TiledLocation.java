@@ -5,11 +5,30 @@ import jmotion.tilegame.model.Physical;
 import ranger.map.Location;
 
 import java.awt.*;
+import java.util.LinkedList;
 
 public class TiledLocation extends Map<GameTile> {
 
     public final int REAL_WIDTH; // Total width of the space in pixels
     public final int REAL_HEIGHT; // Total height of the space in pixels
+
+    public void frameTick() {
+        // TODO each Entity can act during the frame
+
+        for (Physical collided : space.getCollisions(game.getPlayer())) {
+            System.out.println(collided);
+            if (collided instanceof PhysicalItem) {
+                // Remove this item from the 2D and base worlds
+                PhysicalItem item = (PhysicalItem)collided;
+                space.removePhysical(item);
+                location.getItem(item.item);
+
+                // Give the item to the player
+                game.getPlayer().entity.getInventory().addItem(item.item);
+                System.out.println("Player collected " + item.item);
+            }
+        }
+    }
 
     public Iterable<Physical> getPhysicals() {
         return space.getAllPhysicals();
@@ -17,6 +36,7 @@ public class TiledLocation extends Map<GameTile> {
 
     public void addPhysicalEntity(PhysicalEntity entity) {
         space.addPhysical(entity);
+        entities.add(entity);
     }
 
     public void tryEntityWalk(PhysicalEntity entity, int dx, int dy) {
@@ -51,10 +71,13 @@ public class TiledLocation extends Map<GameTile> {
             && p.y >= 0 && p.y < REAL_HEIGHT;
     }
 
-    public TiledLocation(Location location) {
+    public TiledLocation(TiledGame game, Location location) {
         super(20, 20, 40);
+        this.location = location;
+        this.game = game;
 
         visibility = new Visibility(this);
+        entities = new LinkedList<>();
 
         REAL_WIDTH = WIDTH * TILE_WIDTH;
         REAL_HEIGHT = HEIGHT * TILE_WIDTH;
@@ -67,4 +90,7 @@ public class TiledLocation extends Map<GameTile> {
     }
 
     private Visibility visibility;
+    private LinkedList<PhysicalEntity> entities;
+    private Location location;
+    private TiledGame game;
 }

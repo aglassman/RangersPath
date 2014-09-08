@@ -1,7 +1,5 @@
 package ranger.tilegame;
 
-import jmotion.tilegame.model.Physical;
-import jmotion.tilegame.model.TileCoord;
 import mapgen.map.HeightMap;
 import mapgen.map.MapGenerator;
 import mapgen.map.voronoi.VoronoiContinent;
@@ -16,7 +14,7 @@ import java.util.Random;
 
 public class TiledLocationGenerator {
     public TiledLocation generate(Location location) {
-        TiledLocation tiled = new TiledLocation(location);
+        TiledLocation tiled = new TiledLocation(game, location);
         MapGenerator generator = new VoronoiContinent(30);
         Random seededRandom = new Random(location.getSeed());
         HeightMap heightMap = generator.generate(seededRandom, tiled.WIDTH, tiled.HEIGHT);
@@ -61,7 +59,8 @@ public class TiledLocationGenerator {
         return tiled;
     }
 
-    public TiledLocationGenerator() {
+    public TiledLocationGenerator(TiledGame game) {
+        this.game = game;
     }
 
     private void fillLocation(TiledLocation tiled, HeightMap map, TiledTerrain[] terrains, float[] cutoffs) {
@@ -112,4 +111,6 @@ public class TiledLocationGenerator {
 
         return p;
     }
+
+    private TiledGame game;
 }

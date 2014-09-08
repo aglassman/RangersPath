@@ -53,6 +53,13 @@ public class Location implements Named {
 		return null;
 	}
 
+    public void getItem(Item item) {
+        for (Feature f : features) {
+            if (f.getInventory().contains(item))
+                f.getInventory().removeItem(item);
+        }
+    }
+
 	public Feature getFeature(String name) {
 		return Name.getByName(features, name);
 	}

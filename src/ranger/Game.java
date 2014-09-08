@@ -2,6 +2,7 @@ package ranger;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 import ranger.entity.Entity;
 import ranger.hunting.HuntManager;
@@ -92,7 +93,11 @@ public class Game {
 		System.exit(0);
 	}
 	
-	public Game() {		
+	public Game() {
+        long seed = 7222187291045797782L;//new Random().nextLong();
+        Random random = new Random(seed);
+        System.out.println("Game seed: " + seed);
+
 		time = new Time();
 		player = new Player();
 
@@ -111,7 +116,7 @@ public class Game {
 		player.getInventory().addItem(HuntManager.getQuail());
 			
 		entities = new LinkedList<>();
-		region = Generator.newRegion(this);	
+		region = Generator.newRegion(this, random);
 		player.setCurrentLocation(region.getRandomLocation());
 		
 		for (Entity e : entities)

@@ -1,6 +1,7 @@
 package ranger.tilegame;
 
 import jmotion.construction.SpriteLoader;
+import jmotion.tilegame.model.Physical;
 import ranger.Game;
 import ranger.map.Direction;
 
@@ -48,7 +49,7 @@ public class TiledGame {
         this.game = game;
         SPRITE_LOADER = new SpriteLoader("assets");
 
-        generator = new TiledLocationGenerator();
+        generator = new TiledLocationGenerator(this);
 
         currentLocation = generator.generate(game.getPlayerLocation());
 

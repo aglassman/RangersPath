@@ -92,7 +92,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         // Draw sprites
         for (Physical p : location.getPhysicals()) {
             TileCoord physicalLocation = location.getCoord(p.getX(), p.getY());
-            if (visible.contains(physicalLocation))
+            //if (visible.contains(physicalLocation))
                 sprites.get(p).render(g);
         }
     }
@@ -133,6 +133,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
 
         if (horizontalDir != null || verticalDir != null)
             setMap(game.getCurrentLocation());
+
+        location.frameTick();
     }
 
     private final Image GRASS;
