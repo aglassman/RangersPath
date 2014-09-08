@@ -16,6 +16,8 @@ import java.util.HashSet;
 
 public class RangerTileUI extends TileScreenPanel<GameTile> {
 
+    public static boolean graphicalDebug = true;
+
     public RangerTileUI(TiledGame game) {
         super(40);
         this.game = game;
@@ -92,7 +94,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         // Draw sprites
         for (Physical p : location.getPhysicals()) {
             TileCoord physicalLocation = location.getCoord(p.getX(), p.getY());
-            //if (visible.contains(physicalLocation))
+            if (graphicalDebug || visible.contains(physicalLocation))
                 sprites.get(p).render(g);
         }
     }

@@ -18,6 +18,11 @@ public class EntitySprite implements Sprite {
         frames.advanceFrame();
 
         g.drawImage(frames.currentFrame(), x, y, null);
+
+        if (RangerTileUI.graphicalDebug) {
+            g.setColor(Color.red);
+            g.draw(entity.getBounds());
+        }
     }
 
     public void setLocation(int x, int y) {
@@ -50,6 +55,7 @@ public class EntitySprite implements Sprite {
 
         frames = game.SPRITE_LOADER.getFrames(name);
         frames.setSequence(0);
+        entity.setBounds(-10, -15, 20, 20);
     }
 
     private void setFrame(Direction dir, boolean walking) {

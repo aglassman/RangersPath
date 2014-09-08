@@ -23,7 +23,6 @@ public class PhysicalEntity extends Physical {
     }
 
     public PhysicalEntity(Entity entity) {
-        super(40, 20);
         this.entity = entity;
 
         walkSpeed = 6;

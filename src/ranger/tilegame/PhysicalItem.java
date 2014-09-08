@@ -8,7 +8,6 @@ public class PhysicalItem extends Physical {
     public final Item item;
 
     public PhysicalItem(Item item) {
-        super(20, 20); // TODO each item should define its own bounds
         this.item = item;
     }
 }
