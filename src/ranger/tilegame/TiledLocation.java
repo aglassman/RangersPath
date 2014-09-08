@@ -2,6 +2,7 @@ package ranger.tilegame;
 
 import jmotion.tilegame.model.Map;
 import jmotion.tilegame.model.Physical;
+import ranger.map.Direction;
 import ranger.map.Location;
 
 import java.awt.*;
@@ -12,9 +13,42 @@ public class TiledLocation extends Map<GameTile> {
     public final int REAL_WIDTH; // Total width of the space in pixels
     public final int REAL_HEIGHT; // Total height of the space in pixels
 
-    public void frameTick() {
-        // TODO each Entity can act during the frame
+    public void addProjectile(Physical projectile) {
+        addPhysicalLater(projectile);
+    }
 
+    public void frameTick() {
+        newPhysicals.clear();
+        removeLater.clear();
+
+        // Allow each entity to act
+        for (PhysicalEntity entity : entities)
+            entity.act(this);
+
+        // Check if the player has moved to another Location
+        PhysicalPlayer player = game.getPlayer();
+        if (player.getX() < 0)
+            game.movePlayer(Direction.WEST);
+        else if (player.getX() >= REAL_WIDTH)
+            game.movePlayer(Direction.EAST);
+        if (player.getY() < 0)
+            game.movePlayer(Direction.NORTH);
+        else if (player.getY() >= REAL_HEIGHT)
+            game.movePlayer(Direction.SOUTH);
+
+        // Stop performing frame actions if the Location did change
+        if (game.getCurrentLocation() != this)
+            return;
+
+        // Add any new objects created during this action (arrows, etc)
+        for (Physical p : newPhysicals) {
+            if (p instanceof PhysicalEntity)
+                addPhysicalEntity((PhysicalEntity)p);
+            else
+                addPhysical(p);
+        }
+
+        // Act on any collisions this frame
         for (Physical collided : space.getCollisions(game.getPlayer())) {
             System.out.println(collided);
             if (collided instanceof PhysicalItem) {
@@ -28,15 +62,33 @@ public class TiledLocation extends Map<GameTile> {
                 System.out.println("Player collected " + item.item);
             }
         }
+
+        // Remove any objects marked for removal this framed
+        for (Physical toRemove : removeLater) {
+            space.removePhysical(toRemove);
+            entities.remove(toRemove); // no worries if it's not there
+        }
+    }
+
+    public Iterable<Physical> getNewPhysicals() {
+        return newPhysicals;
     }
 
     public Iterable<Physical> getPhysicals() {
         return space.getAllPhysicals();
     }
 
+    public void addPhysicalLater(Physical p) {
+        newPhysicals.add(p);
+    }
+
     public void addPhysicalEntity(PhysicalEntity entity) {
         space.addPhysical(entity);
         entities.add(entity);
+    }
+
+    public void removeLater(Physical physical) {
+        removeLater.add(physical);
     }
 
     public void tryEntityWalk(PhysicalEntity entity, int dx, int dy) {
@@ -68,7 +120,15 @@ public class TiledLocation extends Map<GameTile> {
      */
     public boolean contains(Point p) {
         return p.x >= 0 && p.x < REAL_WIDTH
-            && p.y >= 0 && p.y < REAL_HEIGHT;
+                && p.y >= 0 && p.y < REAL_HEIGHT;
+    }
+
+    /**
+     * Whether a point (in pixel-space, not a tile coordinate) is contained within the bounds
+     */
+    public boolean contains(int x, int y) {
+        return x >= 0 && x < REAL_WIDTH
+                && y >= 0 && y < REAL_HEIGHT;
     }
 
     public TiledLocation(TiledGame game, Location location) {
@@ -78,6 +138,8 @@ public class TiledLocation extends Map<GameTile> {
 
         visibility = new Visibility(this);
         entities = new LinkedList<>();
+        removeLater = new LinkedList<>();
+        newPhysicals = new LinkedList<>();
 
         REAL_WIDTH = WIDTH * TILE_WIDTH;
         REAL_HEIGHT = HEIGHT * TILE_WIDTH;
@@ -91,6 +153,8 @@ public class TiledLocation extends Map<GameTile> {
 
     private Visibility visibility;
     private LinkedList<PhysicalEntity> entities;
+    private LinkedList<Physical> removeLater;
+    private LinkedList<Physical> newPhysicals;
     private Location location;
     private TiledGame game;
 }

@@ -13,6 +13,12 @@ public class PhysicalEntity extends Physical {
     public int xMoved; // amount moved this frame in x
     public int yMoved; // amount moved this frame in y
 
+    /**
+     * Perform any action in a single frame time
+     */
+    public void act(TiledLocation location) {
+    }
+
     public void tryWalk(int dx, int dy) {
         xMoved = dx;
         yMoved = dy;

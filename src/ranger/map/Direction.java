@@ -4,23 +4,25 @@ import ranger.name.DirectionName;
 import ranger.name.Name;
 import ranger.name.Named;
 
+import java.awt.*;
+
 public enum Direction implements Named {
-    NORTH("North") {
+    NORTH("North", 0, -1) {
 		public Direction getOpposite() {
 			return SOUTH;
 		}
 	},
-	SOUTH("South") {
+	SOUTH("South", 0, 1) {
 		public Direction getOpposite() {
 			return NORTH;
 		}		
 	},
-	EAST("East") {
+	EAST("East", 1, 0) {
 		public Direction getOpposite() {
 			return WEST;
 		}
 	},
-	WEST("West") {
+	WEST("West", -1, 0) {
 		public Direction getOpposite() {
 			return EAST;
 		}
@@ -40,14 +42,22 @@ public enum Direction implements Named {
     }
 
 	public abstract Direction getOpposite();
+
+    public Point project(int magnitude) {
+        return new Point(vectorX * magnitude, vectorY * magnitude);
+    }
 	
 	public Name getName() {
 		return name;
 	}
 	
-	Direction(String name) {
+	Direction(String name, int vectorX, int vectorY) {
 		this.name = new DirectionName(name);
+        this.vectorX = vectorX;
+        this.vectorY = vectorY;
 	}
 
 	private Name name;
+    private int vectorX;
+    private int vectorY;
 }

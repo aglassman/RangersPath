@@ -37,7 +37,7 @@ public class TiledGame {
         currentLocation.addPhysicalEntity(player);
     }
 
-    public PhysicalEntity getPlayer() {
+    public PhysicalPlayer getPlayer() {
         return player;
     }
 
@@ -53,7 +53,7 @@ public class TiledGame {
 
         currentLocation = generator.generate(game.getPlayerLocation());
 
-        player = new PhysicalEntity(game.getPlayer());
+        player = new PhysicalPlayer(game.getPlayer());
         player.setLocation(currentLocation.REAL_WIDTH / 2, currentLocation.REAL_HEIGHT / 2);
 
         // HACK - Add the physical player to the TiledLocation
@@ -64,5 +64,5 @@ public class TiledGame {
     private Game game;
     private TiledLocationGenerator generator;
     private TiledLocation currentLocation;
-    private PhysicalEntity player;
+    private PhysicalPlayer player;
 }

@@ -35,6 +35,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 keyLeft |= keyEvent.getKeyCode() == KeyEvent.VK_LEFT;
                 keyUp |= keyEvent.getKeyCode() == KeyEvent.VK_UP;
                 keyDown |= keyEvent.getKeyCode() == KeyEvent.VK_DOWN;
+                keySpacePressed |= keyEvent.getKeyCode() == KeyEvent.VK_SPACE;
             }
             public void keyReleased(KeyEvent keyEvent) {
                 keyRight &= keyEvent.getKeyCode() != KeyEvent.VK_RIGHT;
@@ -50,14 +51,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         this.location = location;
 
         sprites = new HashMap<>();
-        for (Physical p : location.getPhysicals()) {
-            if (p instanceof PhysicalEntity)
-                sprites.put(p, new EntitySprite((PhysicalEntity)p, game));
-            else if (p instanceof PhysicalItem)
-                sprites.put(p, new ItemSprite((PhysicalItem)p, game));
-            else
-                sprites.put(p, new ObjectSprite(p, game));
-        }
+        for (Physical p : location.getPhysicals())
+            addSprite(p);
     }
 
     protected void drawTile(Graphics2D g, int x, int y, int row, int col, GameTile tile) {
@@ -77,6 +72,12 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     }
 
     protected void renderForeground(Graphics2D g) {
+        // Check for new Physicals this frame
+        for (Physical newPhysical : location.getNewPhysicals()) {
+            addSprite(newPhysical);
+            System.out.println("new Physical : " + newPhysical);
+        }
+
         PhysicalEntity player = game.getPlayer();
         TileCoord c = location.getCoord(player.getX(), player.getY());
 
@@ -100,8 +101,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     }
 
     protected void advanceFrame(int millis) {
-        PhysicalEntity player = game.getPlayer();
-        // Move the player
+        PhysicalPlayer player = game.getPlayer();
+        // Decide the players move this turn
         int dx = 0;
         if (keyRight)
             dx += player.walkSpeed;
@@ -114,29 +115,32 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         if (keyUp)
             dy -= player.walkSpeed;
 
-        location.tryEntityWalk(player, dx, dy);
+        player.setMovement(dx, dy);
 
-        // Move the player to the next screen
-        Direction horizontalDir = null;
-        if (player.getX() < 0)
-            horizontalDir = Direction.WEST;
-        else if (player.getX() >= location.REAL_WIDTH)
-            horizontalDir = Direction.EAST;
-        if (horizontalDir != null)
-            game.movePlayer(horizontalDir);
+        // Check for player attack
+        if (keySpacePressed)
+            player.setWillAttack();
 
-        Direction verticalDir = null;
-        if (player.getY() < 0)
-            verticalDir = Direction.NORTH;
-        else if (player.getY() >= location.REAL_HEIGHT)
-            verticalDir = Direction.SOUTH;
-        if (verticalDir != null)
-            game.movePlayer(verticalDir);
+        // Input has been handled, model can act
+        location.frameTick();
 
-        if (horizontalDir != null || verticalDir != null)
+        // If the Location has changed, move there
+        if (map != game.getCurrentLocation())
             setMap(game.getCurrentLocation());
 
-        location.frameTick();
+        // Reset user input
+        keySpacePressed = false;
+    }
+
+    private void addSprite(Physical p) {
+        if (p instanceof Arrow)
+            sprites.put(p, new ArrowSprite((Arrow)p));
+        else if (p instanceof PhysicalItem)
+            sprites.put(p, new ItemSprite((PhysicalItem)p, game));
+        else if (p instanceof PhysicalEntity)
+            sprites.put(p, new EntitySprite((PhysicalEntity)p, game));
+        else
+            sprites.put(p, new ObjectSprite(p, game));
     }
 
     private final Image GRASS;
@@ -151,4 +155,5 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     private boolean keyLeft;
     private boolean keyUp;
     private boolean keyDown;
+    private boolean keySpacePressed;
 }
