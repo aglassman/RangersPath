@@ -23,8 +23,19 @@ public class PhysicalEntity extends Physical {
      * Perform any action in a single frame time
      */
     public void act(TiledLocation location) {
+        --equipedWeaponCooldown;
         if (task != null)
             task.act(location);
+    }
+
+    public Arrow fireRangedEquip() {
+        equipedWeaponCooldown = entity.getEquip().getCooldown();
+        return new Arrow(this, x, y-30, entity.getEquip().getDamage(), Arrow.ARROW_SPEED);
+    }
+
+    public boolean canAttack() {
+        // TODO this should depend not only on the cooldown, but available ammo (if required)
+        return equipedWeaponCooldown <= 0;
     }
 
     public void tryWalk(int dx, int dy) {
@@ -44,4 +55,5 @@ public class PhysicalEntity extends Physical {
     }
 
     protected AITask task;
+    protected int equipedWeaponCooldown;
 }

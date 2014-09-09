@@ -11,10 +11,13 @@ public class PhysicalPlayer extends PhysicalEntity {
 
     @Override
     public void act(TiledLocation location) {
+        --equipedWeaponCooldown;
         location.tryEntityWalk(this, dx, dy);
-        if (willAttack) {
-            Point move = facing.project(10);
-            location.addProjectile(new Arrow(this, x, y-30, move.x, move.y, 10));
+        if (willAttack && canAttack()) {
+            Point velocity = facing.project(10);
+            Arrow arrow = fireRangedEquip();
+            location.addProjectile(arrow);
+            arrow.setVelocity(velocity.x, velocity.y);
         }
 
         willAttack = false;

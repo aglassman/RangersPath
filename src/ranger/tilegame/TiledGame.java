@@ -54,7 +54,6 @@ public class TiledGame {
         player = new PhysicalPlayer(game.getPlayer());
 
         generator = new TiledLocationGenerator(this);
-
         currentLocation = generator.generate(game.getPlayerLocation());
 
         player.setLocation(currentLocation.REAL_WIDTH / 2, currentLocation.REAL_HEIGHT / 2);

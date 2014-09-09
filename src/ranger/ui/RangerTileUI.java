@@ -39,6 +39,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 keyLeft |= keyEvent.getKeyCode() == KeyEvent.VK_LEFT;
                 keyUp |= keyEvent.getKeyCode() == KeyEvent.VK_UP;
                 keyDown |= keyEvent.getKeyCode() == KeyEvent.VK_DOWN;
+                keySpace |= keyEvent.getKeyCode() == KeyEvent.VK_SPACE;
                 keySpacePressed |= keyEvent.getKeyCode() == KeyEvent.VK_SPACE;
             }
             public void keyReleased(KeyEvent keyEvent) {
@@ -46,6 +47,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 keyLeft &= keyEvent.getKeyCode() != KeyEvent.VK_LEFT;
                 keyUp &= keyEvent.getKeyCode() != KeyEvent.VK_UP;
                 keyDown &= keyEvent.getKeyCode() != KeyEvent.VK_DOWN;
+                keySpace &= keyEvent.getKeyCode() != KeyEvent.VK_SPACE;
             }
         });
     }
@@ -122,7 +124,9 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         player.setMovement(dx, dy);
 
         // Check for player attack
-        if (keySpacePressed)
+        // (Fire if the space bar is being held down, or if it has been
+        // pressed during this frame)
+        if (keySpace || keySpacePressed)
             player.setWillAttack();
 
         // Input has been handled, model can act
@@ -159,5 +163,6 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     private boolean keyLeft;
     private boolean keyUp;
     private boolean keyDown;
+    private boolean keySpace;
     private boolean keySpacePressed;
 }

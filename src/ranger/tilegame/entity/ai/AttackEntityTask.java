@@ -6,13 +6,15 @@ import ranger.tilegame.location.TiledLocation;
 
 public class AttackEntityTask extends AITask {
     public void act(TiledLocation location) {
-        if (--countdown == 0) {
-            countdown = 10; // TODO the owning entity needs to be in charge of this
+        if (owner.canAttack()) {
+            Arrow arrow = owner.fireRangedEquip();
+            location.addProjectile(arrow);
+
             double theta = Math.atan2(target.getY() - owner.getY(), target.getX() - owner.getX());
             int speed = 10;
-            int x = (int)(speed * Math.cos(theta));
-            int y = (int)(speed * Math.sin(theta));
-            location.addProjectile(new Arrow(owner, owner.getX(), owner.getY()-30, x, y, 10));
+            int dx = (int)(speed * Math.cos(theta));
+            int dy = (int)(speed * Math.sin(theta));
+            arrow.setVelocity(dx, dy);
         }
     }
 
