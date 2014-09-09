@@ -9,6 +9,10 @@ public class Inventory {
 	public List<Item> getItems() {
 		return items;
 	}
+
+    public boolean contains(Item item) {
+        return items.contains(item);
+    }
 	
 	public boolean isEmpty() {
 		return items.isEmpty();

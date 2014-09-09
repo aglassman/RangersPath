@@ -1,26 +1,31 @@
 
 package ranger.ui;
 
+import jmotion.sprite.Sprite;
 import jmotion.tilegame.TileScreenPanel;
-import jmotion.tilegame.model.Map;
-import ranger.Game;
-import ranger.entity.Bear;
+import jmotion.tilegame.model.Physical;
+import jmotion.tilegame.model.TileCoord;
 import ranger.map.Direction;
-import ranger.tilegame.GameTile;
-import ranger.tilegame.PhysicalEntity;
-import ranger.tilegame.TiledGame;
-import ranger.tilegame.TiledLocation;
+import ranger.tilegame.*;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class RangerTileUI extends TileScreenPanel<GameTile> {
 
+    public static boolean graphicalDebug = true;
+
     public RangerTileUI(TiledGame game) {
-        super(30);
+        super(40);
         this.game = game;
         setMap(game.getCurrentLocation());
+
+        GRASS = game.SPRITE_LOADER.readImage("grass.png");
+        BRUSH = game.SPRITE_LOADER.readImage("trees.png");
+        ROCKS = game.SPRITE_LOADER.readImage("rock.png");
 
         addKeyListener(new KeyListener() {
             public void keyTyped(KeyEvent keyEvent) {
@@ -30,6 +35,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 keyLeft |= keyEvent.getKeyCode() == KeyEvent.VK_LEFT;
                 keyUp |= keyEvent.getKeyCode() == KeyEvent.VK_UP;
                 keyDown |= keyEvent.getKeyCode() == KeyEvent.VK_DOWN;
+                keySpacePressed |= keyEvent.getKeyCode() == KeyEvent.VK_SPACE;
             }
             public void keyReleased(KeyEvent keyEvent) {
                 keyRight &= keyEvent.getKeyCode() != KeyEvent.VK_RIGHT;
@@ -44,83 +50,110 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         super.setMap(location);
         this.location = location;
 
-        // TODO create sprites for each of the entities
+        sprites = new HashMap<>();
+        for (Physical p : location.getPhysicals())
+            addSprite(p);
     }
 
     protected void drawTile(Graphics2D g, int x, int y, int row, int col, GameTile tile) {
+        Image image = null;
         switch (tile.terrain) {
             case UNDERBRUSH:
-                g.setColor(new Color(10, 42, 10));
+                image = BRUSH;
                 break;
             case GRASS:
-                g.setColor(Color.GREEN);
+                image = GRASS;
                 break;
             case ROCKS:
-                g.setColor(Color.GRAY);
+                image = ROCKS;
                 break;
         }
-        g.fillRect(x, y, tileWidth, tileWidth);
+        g.drawImage(image, x, y, null);
     }
 
     protected void renderForeground(Graphics2D g) {
+        // Check for new Physicals this frame
+        for (Physical newPhysical : location.getNewPhysicals()) {
+            addSprite(newPhysical);
+            System.out.println("new Physical : " + newPhysical);
+        }
+
+        PhysicalEntity player = game.getPlayer();
+        TileCoord c = location.getCoord(player.getX(), player.getY());
+
+        // Draw fog
+        HashSet<TileCoord> visible = location.getVisibility().getVisibleCoords(player, c.row, c.col);
+        for (int row = 0; row<location.WIDTH; ++row) {
+            for (int col = 0; col<location.HEIGHT; ++col) {
+                if (!visible.contains(new TileCoord(row, col))) {
+                    Color fog = new Color(55, 55, 55, 100);
+                    g.setColor(fog);
+                    g.fillRect(col*tileWidth, row*tileWidth, tileWidth, tileWidth);
+                }
+            }
+        }
         // Draw sprites
-        for (PhysicalEntity e : location.getEntities()) {
-            g.setColor(getColor(e));
-            g.fillOval(e.getX() - 5, e.getY() - 5, 10, 10);
+        for (Physical p : location.getPhysicals()) {
+            TileCoord physicalLocation = location.getCoord(p.getX(), p.getY());
+            if (graphicalDebug || visible.contains(physicalLocation))
+                sprites.get(p).render(g);
         }
     }
 
     protected void advanceFrame(int millis) {
-        PhysicalEntity player = game.getPlayer();
-        // Move the player
+        PhysicalPlayer player = game.getPlayer();
+        // Decide the players move this turn
         int dx = 0;
         if (keyRight)
             dx += player.walkSpeed;
         if (keyLeft)
             dx -= player.walkSpeed;
-        player.move(dx, 0);
 
         int dy = 0;
         if (keyDown)
             dy += player.walkSpeed;
         if (keyUp)
             dy -= player.walkSpeed;
-        player.move(0, dy);
 
-        // Move the player to the next screen
-        Direction horizontalDir = null;
-        if (player.getX() < 0)
-            horizontalDir = Direction.WEST;
-        else if (player.getX() >= location.REAL_WIDTH)
-            horizontalDir = Direction.EAST;
-        if (horizontalDir != null)
-            game.movePlayer(horizontalDir);
+        player.setMovement(dx, dy);
 
-        Direction verticalDir = null;
-        if (player.getY() < 0)
-            verticalDir = Direction.NORTH;
-        else if (player.getY() >= location.REAL_HEIGHT)
-            verticalDir = Direction.SOUTH;
-        if (verticalDir != null)
-            game.movePlayer(verticalDir);
+        // Check for player attack
+        if (keySpacePressed)
+            player.setWillAttack();
 
-        if (horizontalDir != null || verticalDir != null)
+        // Input has been handled, model can act
+        location.frameTick();
+
+        // If the Location has changed, move there
+        if (map != game.getCurrentLocation())
             setMap(game.getCurrentLocation());
+
+        // Reset user input
+        keySpacePressed = false;
     }
 
-    private Color getColor(PhysicalEntity entity) {
-        if (entity.entity instanceof Bear)
-            return new Color(106, 66, 15);
-        if (entity.entity == game.getGame().getPlayer())
-            return Color.RED;
-        return Color.BLACK; // Goblins, other enemies
+    private void addSprite(Physical p) {
+        if (p instanceof Arrow)
+            sprites.put(p, new ArrowSprite((Arrow)p));
+        else if (p instanceof PhysicalItem)
+            sprites.put(p, new ItemSprite((PhysicalItem)p, game));
+        else if (p instanceof PhysicalEntity)
+            sprites.put(p, new EntitySprite((PhysicalEntity)p, game));
+        else
+            sprites.put(p, new ObjectSprite(p, game));
     }
+
+    private final Image GRASS;
+    private final Image BRUSH;
+    private final Image ROCKS;
 
     private TiledLocation location;
     private TiledGame game;
+    private HashMap<Physical, Sprite> sprites;
 
     private boolean keyRight;
     private boolean keyLeft;
     private boolean keyUp;
     private boolean keyDown;
+    private boolean keySpacePressed;
 }

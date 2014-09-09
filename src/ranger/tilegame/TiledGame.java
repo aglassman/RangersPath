@@ -1,5 +1,7 @@
 package ranger.tilegame;
 
+import jmotion.construction.SpriteLoader;
+import jmotion.tilegame.model.Physical;
 import ranger.Game;
 import ranger.map.Direction;
 
@@ -9,6 +11,8 @@ import ranger.map.Direction;
  * This upgrades the text-based game into a graphical game with zelda-like 2d screens.
  */
 public class TiledGame {
+
+    public final SpriteLoader SPRITE_LOADER;
 
     public TiledLocation getCurrentLocation() {
         return currentLocation;
@@ -33,7 +37,7 @@ public class TiledGame {
         currentLocation.addPhysicalEntity(player);
     }
 
-    public PhysicalEntity getPlayer() {
+    public PhysicalPlayer getPlayer() {
         return player;
     }
 
@@ -43,12 +47,13 @@ public class TiledGame {
 
     public TiledGame(Game game) {
         this.game = game;
+        SPRITE_LOADER = new SpriteLoader("assets");
 
-        generator = new TiledLocationGenerator();
+        generator = new TiledLocationGenerator(this);
 
         currentLocation = generator.generate(game.getPlayerLocation());
 
-        player = new PhysicalEntity(game.getPlayer());
+        player = new PhysicalPlayer(game.getPlayer());
         player.setLocation(currentLocation.REAL_WIDTH / 2, currentLocation.REAL_HEIGHT / 2);
 
         // HACK - Add the physical player to the TiledLocation
@@ -59,5 +64,5 @@ public class TiledGame {
     private Game game;
     private TiledLocationGenerator generator;
     private TiledLocation currentLocation;
-    private PhysicalEntity player;
+    private PhysicalPlayer player;
 }

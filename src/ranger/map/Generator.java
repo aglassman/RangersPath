@@ -15,11 +15,9 @@ import ranger.name.Name;
 import java.util.Random;
 
 public class Generator {
-	public static Region newRegion(Game game) {
+	public static Region newRegion(Game game, Random dice) {
 		int width = 30;
 		int height = 30;
-
-        Random dice = new Random();
 
         // Generate a height map
         MapGenerator generator = new VoronoiContinent(50);
@@ -29,14 +27,15 @@ public class Generator {
 		for (int col = 0; col<width; ++col) {
             for (int row = 0; row<height; ++row) {
                 Location location;
+                long locationSeed = dice.nextLong();
 
                 float h = map.get(row, col);
                 if (h > 0.7)
-                    location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", col, row);
+                    location = new Location(new Name("stony hill"), TerrainType.HILLSIDE, "A stony outcropping rises above the surrounding countryside.", col, row, locationSeed);
                 else if (h > 0.2)
-                    location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", col, row);
+                    location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", col, row, locationSeed);
                 else
-                    location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", col, row);
+                    location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", col, row, locationSeed);
 
                 region.setLocation(location, col, row);
                 addFeatures(game, location, dice);
@@ -46,32 +45,32 @@ public class Generator {
 		return region;
 	}
 	
-	private static Location addFeatures(Game game, Location location, Random dice) {
+	private static Location addFeatures(Game game, Location location, Random random) {
 		// Add some features
-		if (dice.nextDouble() > 0.1)
+		if (random.nextDouble() < 0.2)
 			location.addFeature(new Feature(new Name("Orc camp"), "It looks like the bastards cleared out of here long ago."));
 
         // Add some enemies
-        if (dice.nextDouble() < 0.1) {
-            game.addEntity(getEntity(), location);
+        if (random.nextDouble() < 0.7) {
+            game.addEntity(getEntity(random), location);
         }
 
         // Add some bears
-        if (dice.nextDouble() < 0.1) {
+        if (random.nextDouble() < 0.1) {
             game.addEntity(new Bear(), location);
         }
 		
 		// Add some items to the features
 		for (Feature f : location.getFeatures())
-			addItems(f);
+			addItems(f, random);
 		
 		return location;
 	}
 	
-	private static Entity getEntity() {
+	private static Entity getEntity(Random random) {
 		Entity goblin = new Entity(new Name("Goblin"), true);
 		
-		if (Math.random() > 0.4) {
+		if (random.nextDouble() > 0.4) {
 			Weapon shortSword = new Weapon(new Name("short sword"), 20);
 			goblin.getInventory().addItem(shortSword);
 			goblin.setEquip(shortSword);
@@ -90,12 +89,12 @@ public class Generator {
 		return goblin;
 	}
 	
-	private static void addItems(Feature f) {
-		if (Math.random() < 0.3)
+	private static void addItems(Feature f, Random random) {
+		if (random.nextDouble() < 0.3)
 			f.getInventory().addItem(HuntManager.getRabbit());
-		if (Math.random() < 0.4)
+		if (random.nextDouble() < 0.4)
 			f.getInventory().addItem(HuntManager.getQuail());
-		if (Math.random() < 0.3)
-			f.getInventory().addItem(new Item("arrowhead", (int)Math.floor(Math.random()*20)));
+		if (random.nextDouble() < 0.3)
+			f.getInventory().addItem(new Item("arrowhead", random.nextInt(20)));
 	}
 }
