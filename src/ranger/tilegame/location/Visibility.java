@@ -1,7 +1,9 @@
-package ranger.tilegame;
+package ranger.tilegame.location;
 
 import jmotion.tilegame.model.Direction;
 import jmotion.tilegame.model.TileCoord;
+import ranger.tilegame.entity.PhysicalEntity;
+import ranger.tilegame.location.TiledLocation;
 
 import java.util.HashSet;
 

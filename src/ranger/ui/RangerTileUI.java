@@ -5,8 +5,12 @@ import jmotion.sprite.Sprite;
 import jmotion.tilegame.TileScreenPanel;
 import jmotion.tilegame.model.Physical;
 import jmotion.tilegame.model.TileCoord;
-import ranger.map.Direction;
 import ranger.tilegame.*;
+import ranger.tilegame.entity.Arrow;
+import ranger.tilegame.entity.PhysicalEntity;
+import ranger.tilegame.entity.PhysicalPlayer;
+import ranger.tilegame.location.GameTile;
+import ranger.tilegame.location.TiledLocation;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

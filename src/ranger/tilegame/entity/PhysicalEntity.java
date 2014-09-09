@@ -1,8 +1,10 @@
-package ranger.tilegame;
+package ranger.tilegame.entity;
 
 import jmotion.tilegame.model.Physical;
 import ranger.entity.Entity;
 import ranger.map.Direction;
+import ranger.tilegame.entity.ai.AITask;
+import ranger.tilegame.location.TiledLocation;
 
 public class PhysicalEntity extends Physical {
 
@@ -13,10 +15,16 @@ public class PhysicalEntity extends Physical {
     public int xMoved; // amount moved this frame in x
     public int yMoved; // amount moved this frame in y
 
+    public void setTask(AITask task) {
+        this.task = task;
+    }
+
     /**
      * Perform any action in a single frame time
      */
     public void act(TiledLocation location) {
+        if (task != null)
+            task.act(location);
     }
 
     public void tryWalk(int dx, int dy) {
@@ -34,4 +42,6 @@ public class PhysicalEntity extends Physical {
         walkSpeed = 6;
         facing = Direction.SOUTH; // TODO this should be randomized, by the generator
     }
+
+    protected AITask task;
 }

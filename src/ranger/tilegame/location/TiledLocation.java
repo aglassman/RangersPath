@@ -1,9 +1,13 @@
-package ranger.tilegame;
+package ranger.tilegame.location;
 
 import jmotion.tilegame.model.Map;
 import jmotion.tilegame.model.Physical;
 import ranger.map.Direction;
 import ranger.map.Location;
+import ranger.tilegame.PhysicalItem;
+import ranger.tilegame.TiledGame;
+import ranger.tilegame.entity.PhysicalEntity;
+import ranger.tilegame.entity.PhysicalPlayer;
 
 import java.awt.*;
 import java.util.LinkedList;

@@ -1,8 +1,7 @@
 package ranger.ui;
 
 import jmotion.sprite.Sprite;
-import jmotion.tilegame.model.Physical;
-import ranger.tilegame.Arrow;
+import ranger.tilegame.entity.Arrow;
 
 import java.awt.*;
 

@@ -1,6 +1,7 @@
-package ranger.tilegame;
+package ranger.tilegame.entity;
 
 import jmotion.tilegame.model.Physical;
+import ranger.tilegame.location.TiledLocation;
 
 public class Arrow extends PhysicalEntity {
 

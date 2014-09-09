@@ -1,7 +1,9 @@
-package ranger.tilegame;
+package ranger.tilegame.entity;
 
 import jmotion.tilegame.model.Physical;
 import ranger.entity.Entity;
+import ranger.tilegame.PhysicalItem;
+import ranger.tilegame.location.TiledLocation;
 
 import java.awt.*;
 
