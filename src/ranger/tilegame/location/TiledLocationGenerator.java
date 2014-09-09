@@ -10,7 +10,7 @@ import ranger.map.Location;
 import ranger.tilegame.PhysicalItem;
 import ranger.tilegame.TiledGame;
 import ranger.tilegame.entity.PhysicalEntity;
-import ranger.tilegame.entity.ai.AttackEntityTask;
+import ranger.tilegame.entity.task.AttackEntityTask;
 import ranger.tilegame.object.Campfire;
 
 import java.awt.*;

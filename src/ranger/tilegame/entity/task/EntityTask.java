@@ -1,7 +1,7 @@
-package ranger.tilegame.entity.ai;
+package ranger.tilegame.entity.task;
 
 import ranger.tilegame.location.TiledLocation;
 
-public abstract class AITask {
+public abstract class EntityTask {
     public abstract void act(TiledLocation location);
 }

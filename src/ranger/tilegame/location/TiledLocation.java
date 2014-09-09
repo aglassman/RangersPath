@@ -7,7 +7,6 @@ import ranger.map.Location;
 import ranger.tilegame.PhysicalItem;
 import ranger.tilegame.TiledGame;
 import ranger.tilegame.entity.PhysicalEntity;
-import ranger.tilegame.entity.PhysicalPlayer;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -35,7 +34,7 @@ public class TiledLocation extends Map<GameTile> {
             entity.act(this);
 
         // Check if the player has moved to another Location
-        PhysicalPlayer player = game.getPlayer();
+        PhysicalEntity player = game.getPlayer();
         if (player.getX() < 0)
             game.movePlayer(Direction.WEST);
         else if (player.getX() >= REAL_WIDTH)

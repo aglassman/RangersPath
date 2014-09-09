@@ -3,7 +3,7 @@ package ranger.tilegame.entity;
 import jmotion.tilegame.model.Physical;
 import ranger.entity.Entity;
 import ranger.map.Direction;
-import ranger.tilegame.entity.ai.AITask;
+import ranger.tilegame.entity.task.EntityTask;
 import ranger.tilegame.location.TiledLocation;
 
 public class PhysicalEntity extends Physical {
@@ -15,7 +15,7 @@ public class PhysicalEntity extends Physical {
     public int xMoved; // amount moved this frame in x
     public int yMoved; // amount moved this frame in y
 
-    public void setTask(AITask task) {
+    public void setTask(EntityTask task) {
         this.task = task;
     }
 
@@ -54,6 +54,6 @@ public class PhysicalEntity extends Physical {
         facing = Direction.SOUTH; // TODO this should be randomized, by the generator
     }
 
-    protected AITask task;
+    protected EntityTask task;
     protected int equipedWeaponCooldown;
 }

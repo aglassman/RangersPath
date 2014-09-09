@@ -1,10 +1,10 @@
-package ranger.tilegame.entity.ai;
+package ranger.tilegame.entity.task;
 
 import ranger.tilegame.entity.Arrow;
 import ranger.tilegame.entity.PhysicalEntity;
 import ranger.tilegame.location.TiledLocation;
 
-public class AttackEntityTask extends AITask {
+public class AttackEntityTask extends EntityTask {
     public void act(TiledLocation location) {
         if (owner.canAttack()) {
             Arrow arrow = owner.fireRangedEquip();
@@ -21,10 +21,8 @@ public class AttackEntityTask extends AITask {
     public AttackEntityTask(PhysicalEntity owner, PhysicalEntity target) {
         this.owner = owner;
         this.target = target;
-        countdown = 10;
     }
 
     private PhysicalEntity owner;
     private PhysicalEntity target;
-    private int countdown;
 }
