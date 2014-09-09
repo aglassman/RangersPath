@@ -1,4 +1,4 @@
-package ranger.tilegame;
+package ranger.tilegame.location;
 
 import mapgen.map.HeightMap;
 import mapgen.map.MapGenerator;
@@ -7,6 +7,10 @@ import ranger.entity.Entity;
 import ranger.item.Item;
 import ranger.map.Feature;
 import ranger.map.Location;
+import ranger.tilegame.PhysicalItem;
+import ranger.tilegame.TiledGame;
+import ranger.tilegame.entity.PhysicalEntity;
+import ranger.tilegame.entity.task.AttackEntityTask;
 import ranger.tilegame.object.Campfire;
 
 import java.awt.*;
@@ -45,6 +49,9 @@ public class TiledLocationGenerator {
         // Add PhysicalEntities wrapping the Entities
         for (Entity e : location.getEntities()) {
             PhysicalEntity p = new PhysicalEntity(e);
+
+            p.setTask(new AttackEntityTask(p, game.getPlayer()));
+
             // TODO this position should be based on some saved state or activity history, not randomly
             int x = (int)(Math.random() * tiled.REAL_WIDTH);
             int y = (int)(Math.random() * tiled.REAL_HEIGHT);

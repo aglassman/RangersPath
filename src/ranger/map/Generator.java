@@ -71,11 +71,11 @@ public class Generator {
 		Entity goblin = new Entity(new Name("Goblin"), true);
 		
 		if (random.nextDouble() > 0.4) {
-			Weapon shortSword = new Weapon(new Name("short sword"), 20);
+			Weapon shortSword = new Weapon(new Name("short sword"), 20, 10);
 			goblin.getInventory().addItem(shortSword);
 			goblin.setEquip(shortSword);
 		} else {
-			Weapon bow = new Weapon(new Name("bow"), 10, true);
+			Weapon bow = new Weapon(new Name("bow"), 10, true, 10);
 			goblin.getInventory().addItem(bow);
 			goblin.setEquip(bow);
 			Ammo arrows = new Ammo("arrow", 3, (int)(Math.random() * 6));

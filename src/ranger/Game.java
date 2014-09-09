@@ -101,11 +101,11 @@ public class Game {
 		time = new Time();
 		player = new Player();
 
-		Weapon dagger = new Weapon(new Name("great sword"), 100);
-		player.setEquip(dagger);
-		player.getInventory().addItem(dagger);
+		Weapon sword = new Weapon(new Name("great sword"), 100, 20);
+		player.setEquip(sword);
+		player.getInventory().addItem(sword);
 		
-		Weapon bow = new Weapon(new Name("bow"), 10, true);
+		Weapon bow = new Weapon(new Name("bow"), 10, true, 10);
 		player.getInventory().addItem(bow);
 		Ammo arrows = new Ammo("arrow", 5, 3);
 		player.getInventory().addItem(arrows);

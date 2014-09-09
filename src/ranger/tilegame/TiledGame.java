@@ -1,9 +1,11 @@
 package ranger.tilegame;
 
 import jmotion.construction.SpriteLoader;
-import jmotion.tilegame.model.Physical;
 import ranger.Game;
 import ranger.map.Direction;
+import ranger.tilegame.entity.PhysicalEntity;
+import ranger.tilegame.location.TiledLocation;
+import ranger.tilegame.location.TiledLocationGenerator;
 
 /**
  * TiledGame wraps a regular Game adding a 2D tiled environment for each Location.
@@ -37,7 +39,7 @@ public class TiledGame {
         currentLocation.addPhysicalEntity(player);
     }
 
-    public PhysicalPlayer getPlayer() {
+    public PhysicalEntity getPlayer() {
         return player;
     }
 
@@ -49,11 +51,11 @@ public class TiledGame {
         this.game = game;
         SPRITE_LOADER = new SpriteLoader("assets");
 
-        generator = new TiledLocationGenerator(this);
+        player = new PhysicalEntity(game.getPlayer());
 
+        generator = new TiledLocationGenerator(this);
         currentLocation = generator.generate(game.getPlayerLocation());
 
-        player = new PhysicalPlayer(game.getPlayer());
         player.setLocation(currentLocation.REAL_WIDTH / 2, currentLocation.REAL_HEIGHT / 2);
 
         // HACK - Add the physical player to the TiledLocation
@@ -64,5 +66,5 @@ public class TiledGame {
     private Game game;
     private TiledLocationGenerator generator;
     private TiledLocation currentLocation;
-    private PhysicalPlayer player;
+    private PhysicalEntity player;
 }

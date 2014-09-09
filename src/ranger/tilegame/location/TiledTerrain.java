@@ -1,4 +1,4 @@
-package ranger.tilegame;
+package ranger.tilegame.location;
 
 public enum TiledTerrain {
     GRASS(0),

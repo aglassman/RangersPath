@@ -3,7 +3,7 @@ package ranger.ui;
 import jmotion.animation.FrameSet;
 import jmotion.sprite.Sprite;
 import ranger.map.Direction;
-import ranger.tilegame.PhysicalEntity;
+import ranger.tilegame.entity.PhysicalEntity;
 import ranger.tilegame.TiledGame;
 
 import java.awt.*;

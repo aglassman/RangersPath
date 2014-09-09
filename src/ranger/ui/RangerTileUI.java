@@ -5,8 +5,13 @@ import jmotion.sprite.Sprite;
 import jmotion.tilegame.TileScreenPanel;
 import jmotion.tilegame.model.Physical;
 import jmotion.tilegame.model.TileCoord;
-import ranger.map.Direction;
-import ranger.tilegame.*;
+import ranger.tilegame.PhysicalItem;
+import ranger.tilegame.TiledGame;
+import ranger.tilegame.entity.Arrow;
+import ranger.tilegame.entity.PhysicalEntity;
+import ranger.tilegame.entity.task.PlayerControlTask;
+import ranger.tilegame.location.GameTile;
+import ranger.tilegame.location.TiledLocation;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,9 +23,10 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
 
     public static boolean graphicalDebug = true;
 
-    public RangerTileUI(TiledGame game) {
+    public RangerTileUI(TiledGame game, PlayerControlTask playerControl) {
         super(40);
         this.game = game;
+        this.playerControl = playerControl;
         setMap(game.getCurrentLocation());
 
         GRASS = game.SPRITE_LOADER.readImage("grass.png");
@@ -35,6 +41,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 keyLeft |= keyEvent.getKeyCode() == KeyEvent.VK_LEFT;
                 keyUp |= keyEvent.getKeyCode() == KeyEvent.VK_UP;
                 keyDown |= keyEvent.getKeyCode() == KeyEvent.VK_DOWN;
+                keySpace |= keyEvent.getKeyCode() == KeyEvent.VK_SPACE;
                 keySpacePressed |= keyEvent.getKeyCode() == KeyEvent.VK_SPACE;
             }
             public void keyReleased(KeyEvent keyEvent) {
@@ -42,6 +49,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 keyLeft &= keyEvent.getKeyCode() != KeyEvent.VK_LEFT;
                 keyUp &= keyEvent.getKeyCode() != KeyEvent.VK_UP;
                 keyDown &= keyEvent.getKeyCode() != KeyEvent.VK_DOWN;
+                keySpace &= keyEvent.getKeyCode() != KeyEvent.VK_SPACE;
             }
         });
     }
@@ -101,7 +109,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     }
 
     protected void advanceFrame(int millis) {
-        PhysicalPlayer player = game.getPlayer();
+        PhysicalEntity player = game.getPlayer();
         // Decide the players move this turn
         int dx = 0;
         if (keyRight)
@@ -115,11 +123,13 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         if (keyUp)
             dy -= player.walkSpeed;
 
-        player.setMovement(dx, dy);
+        playerControl.setMovement(dx, dy);
 
         // Check for player attack
-        if (keySpacePressed)
-            player.setWillAttack();
+        // (Fire if the space bar is being held down, or if it has been
+        // pressed during this frame)
+        if (keySpace || keySpacePressed)
+            playerControl.setWillAttack();
 
         // Input has been handled, model can act
         location.frameTick();
@@ -155,5 +165,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     private boolean keyLeft;
     private boolean keyUp;
     private boolean keyDown;
+    private boolean keySpace;
     private boolean keySpacePressed;
+
+    private PlayerControlTask playerControl;
 }
