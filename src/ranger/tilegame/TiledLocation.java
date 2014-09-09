@@ -17,6 +17,11 @@ public class TiledLocation extends Map<GameTile> {
         addPhysicalLater(projectile);
     }
 
+    public void removeItem(PhysicalItem item) {
+        location.getItem(item.item);
+        removeLater(item);
+    }
+
     public void frameTick() {
         newPhysicals.clear();
         removeLater.clear();
@@ -48,19 +53,11 @@ public class TiledLocation extends Map<GameTile> {
                 addPhysical(p);
         }
 
-        // Act on any collisions this frame
-        for (Physical collided : space.getCollisions(game.getPlayer())) {
-            System.out.println(collided);
-            if (collided instanceof PhysicalItem) {
-                // Remove this item from the 2D and base worlds
-                PhysicalItem item = (PhysicalItem)collided;
-                space.removePhysical(item);
-                location.getItem(item.item);
-
-                // Give the item to the player
-                game.getPlayer().entity.getInventory().addItem(item.item);
-                System.out.println("Player collected " + item.item);
-            }
+        // Remove any entities that died this frame
+        for (PhysicalEntity entity : entities) {
+            // Hack: arrows have no entity
+            if (entity.entity != null && entity.entity.isDead())
+                removeLater.add(entity);
         }
 
         // Remove any objects marked for removal this framed
@@ -149,6 +146,10 @@ public class TiledLocation extends Map<GameTile> {
                 set(new GameTile(), row, col);
             }
         }
+    }
+
+    private void doCollision(Physical a, Physical b) {
+
     }
 
     private Visibility visibility;

@@ -1,6 +1,7 @@
 package ranger.ui;
 
 import jmotion.sprite.Sprite;
+import jmotion.tilegame.model.Physical;
 import ranger.tilegame.Arrow;
 
 import java.awt.*;
@@ -9,7 +10,7 @@ public class ArrowSprite implements Sprite {
 
     @Override
     public void render(Graphics2D g) {
-        g.setColor(Color.WHITE);
+        g.setColor(Color.BLACK);
         g.fillOval(arrow.getX()-3, arrow.getY()-3, 6, 6);
     }
 
@@ -34,6 +35,7 @@ public class ArrowSprite implements Sprite {
 
     public ArrowSprite(Arrow arrow) {
         this.arrow = arrow;
+        arrow.setBounds(-3, -3, 6, 6);
     }
 
     private Arrow arrow;
