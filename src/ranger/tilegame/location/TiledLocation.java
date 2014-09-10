@@ -13,8 +13,11 @@ import java.util.LinkedList;
 
 public class TiledLocation extends Map<GameTile> {
 
-    public final int REAL_WIDTH; // Total width of the space in pixels
-    public final int REAL_HEIGHT; // Total height of the space in pixels
+    public static final int MAP_WIDTH = 20;
+    public static final int MAP_HEIGHT = 20;
+    public static final int TILE_WIDTH = 40;
+    public static final int REAL_WIDTH = MAP_WIDTH * TILE_WIDTH; // Total width of the space in pixels
+    public static final int REAL_HEIGHT = MAP_HEIGHT * TILE_WIDTH; // Total height of the space in pixels
 
     public void addProjectile(Physical projectile) {
         addPhysicalLater(projectile);
@@ -132,7 +135,7 @@ public class TiledLocation extends Map<GameTile> {
     }
 
     public TiledLocation(TiledGame game, Location location) {
-        super(20, 20, 40);
+        super(MAP_WIDTH, MAP_HEIGHT, TILE_WIDTH);
         this.location = location;
         this.game = game;
 
@@ -140,9 +143,6 @@ public class TiledLocation extends Map<GameTile> {
         entities = new LinkedList<>();
         removeLater = new LinkedList<>();
         newPhysicals = new LinkedList<>();
-
-        REAL_WIDTH = WIDTH * TILE_WIDTH;
-        REAL_HEIGHT = HEIGHT * TILE_WIDTH;
 
         for (int row = 0; row<HEIGHT; ++row) {
             for (int col = 0; col<WIDTH; ++col) {
