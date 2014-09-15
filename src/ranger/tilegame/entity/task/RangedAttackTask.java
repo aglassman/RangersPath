@@ -4,7 +4,7 @@ import ranger.tilegame.entity.Arrow;
 import ranger.tilegame.entity.PhysicalEntity;
 import ranger.tilegame.location.TiledLocation;
 
-public class AttackEntityTask extends EntityTask {
+public class RangedAttackTask extends EntityTask {
     public void act(TiledLocation location) {
         if (owner.canAttack()) {
             Arrow arrow = owner.fireRangedEquip();
@@ -18,7 +18,7 @@ public class AttackEntityTask extends EntityTask {
         }
     }
 
-    public AttackEntityTask(PhysicalEntity owner, PhysicalEntity target) {
+    public RangedAttackTask(PhysicalEntity owner, PhysicalEntity target) {
         this.owner = owner;
         this.target = target;
     }

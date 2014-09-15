@@ -35,7 +35,7 @@ public class Generator {
                 else if (h > 0.2)
                     location = new Location(new Name("forest"), TerrainType.FOREST, "The trees stretch high overhead, and dense underbrush provides cover.", col, row, locationSeed);
                 else
-                    location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves accross the open plain.", col, row, locationSeed);
+                    location = new Location(new Name("grassland"), TerrainType.PLAINS, "Green grass waves across the open plain.", col, row, locationSeed);
 
                 region.setLocation(location, col, row);
                 addFeatures(game, location, dice);
@@ -73,17 +73,16 @@ public class Generator {
 		if (random.nextDouble() > 0.4) {
 			Weapon shortSword = new Weapon(new Name("short sword"), 20, 10);
 			goblin.getInventory().addItem(shortSword);
-			goblin.setEquip(shortSword);
-		} else {
-			Weapon bow = new Weapon(new Name("bow"), 10, true, 10);
-			goblin.getInventory().addItem(bow);
-			goblin.setEquip(bow);
-			Ammo arrows = new Ammo("arrow", 3, (int)(Math.random() * 6));
-			goblin.getInventory().addItem(arrows);
-			goblin.setAmmo(arrows);
-		}		
+        }
+
+        Weapon bow = new Weapon(new Name("bow"), 10, true, 10);
+        goblin.getInventory().addItem(bow);
+        goblin.setEquip(bow);
+        Ammo arrows = new Ammo("arrow", 3, 10);
+        goblin.getInventory().addItem(arrows);
+        goblin.setAmmo(arrows);
 		
-		if (Math.random() > 0.5)
+		if (random.nextBoolean())
 			goblin.setWeaponDrawn(true);
 		
 		return goblin;
