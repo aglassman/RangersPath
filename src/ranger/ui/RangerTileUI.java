@@ -27,6 +27,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
         super(40);
         this.game = game;
         this.playerControl = playerControl;
+        menu = new Menu(game, TiledLocation.REAL_WIDTH, 0, 150, TiledLocation.REAL_HEIGHT);
         setMap(game.getCurrentLocation());
 
         GRASS = game.SPRITE_LOADER.readImage("grass.png");
@@ -52,6 +53,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
                 keySpace &= keyEvent.getKeyCode() != KeyEvent.VK_SPACE;
             }
         });
+
+        setSize(TiledLocation.REAL_WIDTH + menu.width, TiledLocation.REAL_HEIGHT);
     }
 
     public void setMap(TiledLocation location) {
@@ -106,6 +109,8 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
             if (graphicalDebug || visible.contains(physicalLocation))
                 sprites.get(p).render(g);
         }
+
+        menu.render(g);
     }
 
     protected void advanceFrame(int millis) {
@@ -160,6 +165,7 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     private TiledLocation location;
     private TiledGame game;
     private HashMap<Physical, Sprite> sprites;
+    private Menu menu;
 
     private boolean keyRight;
     private boolean keyLeft;
@@ -167,6 +173,5 @@ public class RangerTileUI extends TileScreenPanel<GameTile> {
     private boolean keyDown;
     private boolean keySpace;
     private boolean keySpacePressed;
-
     private PlayerControlTask playerControl;
 }

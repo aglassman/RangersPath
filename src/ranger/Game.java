@@ -94,7 +94,7 @@ public class Game {
 	}
 	
 	public Game() {
-        long seed = 7222187291045797782L;//new Random().nextLong();
+        long seed = 7222187291045797782L;//new Random().nextLong(); r
         Random random = new Random(seed);
         System.out.println("Game seed: " + seed);
 
@@ -102,13 +102,13 @@ public class Game {
 		player = new Player();
 
 		Weapon sword = new Weapon(new Name("great sword"), 100, 20);
-		player.setEquip(sword);
 		player.getInventory().addItem(sword);
 		
 		Weapon bow = new Weapon(new Name("bow"), 10, true, 10);
 		player.getInventory().addItem(bow);
 		Ammo arrows = new Ammo("arrow", 5, 3);
 		player.getInventory().addItem(arrows);
+        player.setEquip(bow);
 		player.setAmmo(arrows);
 		
 		player.getInventory().addItem(new Food("Salted Pork", 3, 15));
