@@ -10,7 +10,7 @@ import ranger.map.Location;
 import ranger.tilegame.PhysicalItem;
 import ranger.tilegame.TiledGame;
 import ranger.tilegame.entity.PhysicalEntity;
-import ranger.tilegame.entity.task.AttackEntityTask;
+import ranger.tilegame.entity.task.RangedAttackTask;
 import ranger.tilegame.object.Campfire;
 
 import java.awt.*;
@@ -50,7 +50,7 @@ public class TiledLocationGenerator {
         for (Entity e : location.getEntities()) {
             PhysicalEntity p = new PhysicalEntity(e);
 
-            p.setTask(new AttackEntityTask(p, game.getPlayer()));
+            p.setTask(new RangedAttackTask(p, game.getPlayer()));
 
             // TODO this position should be based on some saved state or activity history, not randomly
             int x = (int)(Math.random() * tiled.REAL_WIDTH);

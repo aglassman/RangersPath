@@ -106,7 +106,7 @@ public class Game {
 		
 		Weapon bow = new Weapon(new Name("bow"), 10, true, 10);
 		player.getInventory().addItem(bow);
-		Ammo arrows = new Ammo("arrow", 5, 3);
+		Ammo arrows = new Ammo("arrow", 5, 10);
 		player.getInventory().addItem(arrows);
         player.setEquip(bow);
 		player.setAmmo(arrows);

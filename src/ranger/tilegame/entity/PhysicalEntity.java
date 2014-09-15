@@ -30,12 +30,14 @@ public class PhysicalEntity extends Physical {
 
     public Arrow fireRangedEquip() {
         equipedWeaponCooldown = entity.getEquip().getCooldown();
+        entity.getAmmo().adjustQuantity(-1);
         return new Arrow(this, x, y-30, entity.getEquip().getDamage(), Arrow.ARROW_SPEED);
     }
 
     public boolean canAttack() {
-        // TODO this should depend not only on the cooldown, but available ammo (if required)
-        return equipedWeaponCooldown <= 0;
+        return entity.getEquip() != null
+            && (!entity.getEquip().isRanged() || entity.getAmmo() != null && entity.getAmmo().getQuantity() > 0)
+            && equipedWeaponCooldown <= 0;
     }
 
     public void tryWalk(int dx, int dy) {
