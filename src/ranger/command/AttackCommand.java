@@ -1,6 +1,6 @@
 package ranger.command;
 
-import ranger.CombatManager;
+import ranger.TextCombatManager;
 import ranger.Game;
 import ranger.map.Location;
 
@@ -19,7 +19,7 @@ public class AttackCommand implements Command {
 		if (location.getEntities().isEmpty()) {
 			System.out.println("Nobody to attack here.");
 		} else {
-			CombatManager.playerAttacks(game, game.getPlayer(), location);
+			TextCombatManager.playerAttacks(game, game.getPlayer(), location);
 		}		
 	}
 
