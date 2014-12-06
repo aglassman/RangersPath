@@ -40,7 +40,7 @@ public class Game {
 		entity.setCurrentLocation(destination);
 		if (destination == player.getCurrentLocation()) {
 			Output.println("%s approached from the %s.", entity, NameType.INDEFINITE, direction.getOpposite(), NameType.INDEFINITE);
-			CombatManager.fight(this, destination, entity, player);
+			TextCombatManager.fight(this, destination, entity, player);
 		}
 
 		if (source == player.getCurrentLocation())
