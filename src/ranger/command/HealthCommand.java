@@ -1,5 +1,6 @@
 package ranger.command;
 
+import game.engine.io.Output;
 import ranger.Game;
 import ranger.Player;
 
@@ -15,18 +16,18 @@ public class HealthCommand implements Command {
 
 	public void execute(Game game, String[] words, String directObject) {
 		Player player = game.getPlayer();
-		displayStat(player.getHealth(), "You are healthy.", "You are injured.", "You are gravely wounded.");
-		displayStat(player.getFood(), "You are not hungry.", "You are hungry.", "You are starving.");
-		displayStat(player.getHydration(), "You are not thirsty.", "You are parched.", "You are dehydrated.");
+		displayStat(game.ui.output, player.getHealth(), "You are healthy.", "You are injured.", "You are gravely wounded.");
+		displayStat(game.ui.output, player.getFood(), "You are not hungry.", "You are hungry.", "You are starving.");
+		displayStat(game.ui.output, player.getHydration(), "You are not thirsty.", "You are parched.", "You are dehydrated.");
 	}
 	
-	private void displayStat(int value, String high, String medium, String low) {
+	private void displayStat(Output output, int value, String high, String medium, String low) {
 		if (value >= highThreshold)
-			System.out.println(high);
+			output.println(high);
 		else if (value >= mediumThreshold)
-			System.out.println(medium);
+			output.println(medium);
 		else
-			System.out.println(low);
+			output.println(low);
 	}
 
 	private int highThreshold = 80;

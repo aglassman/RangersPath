@@ -19,13 +19,13 @@ public class EquipCommand implements Command {
 		Item item = game.getPlayer().getInventory().getItem(directObject);
 		
 		if (item == null)
-			System.out.println("You don't have one of those.");
+			game.ui.output.println("You don't have one of those.");
 		else if (item instanceof Weapon)
 			game.getPlayer().setEquip((Weapon)item);
 		else if (item instanceof Ammo)
 			game.getPlayer().setAmmo((Ammo)item);
 		else
-			System.out.println("You can't equip " + item.getName().definite() + ".");
+			game.ui.output.println("You can't equip " + item.getName().definite() + ".");
 	}
 
 }

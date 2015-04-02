@@ -1,7 +1,6 @@
 package ranger.command;
 
 import ranger.Game;
-import ranger.Output;
 import ranger.item.Carcass;
 import ranger.item.Inventory;
 import ranger.item.Item;
@@ -21,18 +20,18 @@ public class CleanCommand implements Command {
 		Inventory invent = game.getPlayer().getInventory();
 		Item item = invent.getItem(directObject);
 		if (item == null) {
-			System.out.println("You don't have any of that.");
+			game.ui.output.println("You don't have any of that.");
 		} else if (item instanceof Carcass) {
 			Carcass carcass = (Carcass)item;
 			invent.expend(carcass);
 			
-			Output.println("You cleaned %s and produced:", carcass, NameType.DEFINITE);
-			Output.printlnList("", carcass.clean(), "");
+			game.ui.output.println("You cleaned %s and produced:", carcass, NameType.DEFINITE);
+			game.ui.output.printlnList("", carcass.clean(), "");
 			for (Item product : carcass.clean()) {
 				invent.addItem(product);
 			}
 		} else {
-			System.out.println("You can't clean your " + directObject);
+			game.ui.output.println("You can't clean your " + directObject);
 		}
 	}
 

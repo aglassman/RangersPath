@@ -5,13 +5,13 @@ import ranger.Game;
 public class Time {
 	
 	public boolean isDark() {
-		return timeOfDay.isDark;
+		return getTimeOfDay().isDark;
 	}
 	
 	public void showDayTime() {
-		System.out.print("Day " + (time/DAY_LENGTH + 1) + " of your wanderings. ");
+		game.ui.output.print("Day " + (time/DAY_LENGTH + 1) + " of your wanderings. ");
 		
-		System.out.println(describeTimeOfDay());
+		game.ui.output.println(describeTimeOfDay());
 	}
 	
 	public long getCurrentTime() {
@@ -19,7 +19,12 @@ public class Time {
 	}
 	
 	public String describeTimeOfDay() {
-		return timeOfDay.description;
+		return getTimeOfDay().description;
+	}
+	
+	public TimeOfDay getTimeOfDay()
+	{
+		return TimeOfDay.getTimeOfDay(time);
 	}
 	
 	public long timeTillNextEvent() {
@@ -36,12 +41,10 @@ public class Time {
 	
 	public void waitMinutes(long minutes) {
 		time += minutes;
-		timeOfDay = TimeOfDay.getTimeOfDay(time);
 	}
 	
 	public void doNextEvent(Game game) {
 		time = head.event.getTime();
-		timeOfDay = TimeOfDay.getTimeOfDay(time);
 		head.event.execute(game);
 		head = head.next;
 	}
@@ -57,9 +60,9 @@ public class Time {
 		}
 	}
 	
-	public Time() {
-		timeOfDay = TimeOfDay.DAWN;
-		time = timeOfDay.time;
+	public Time(Game game) {
+		this.game = game;
+		time = TimeOfDay.DAWN.time;
 	}
 	
 	private class EventNode {
@@ -77,7 +80,7 @@ public class Time {
 	
 	private final long DAY_LENGTH = 60 * 24;
 	
+	private Game game;
 	private EventNode head;
 	private long time;
-	private TimeOfDay timeOfDay;
 }

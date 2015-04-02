@@ -17,17 +17,17 @@ public class InventoryCommand implements Command {
 	public void execute(Game game, String[] words, String directObject) {
 		Inventory inventory = game.getPlayer().getInventory();
 		if (inventory.isEmpty()) {
-			System.out.println("You carry nothing.");
+			game.ui.output.println("You carry nothing.");
 		} else {
-			System.out.println("You carry:");
+			game.ui.output.println("You carry:");
 			for (Item i : inventory.getItems()) {
-				System.out.print(i.getName().indefinite());
+				game.ui.output.print(i.getName().indefinite());
 				if (i == game.getPlayer().getEquip())
-					System.out.println(" (equipped)");
+					game.ui.output.println(" (equipped)");
 				else if (i == game.getPlayer().getAmmo())
-					System.out.println(" (quiver)");
+					game.ui.output.println(" (quiver)");
 				else
-					System.out.println();
+					game.ui.output.println("");
 			}
 		}
 	}

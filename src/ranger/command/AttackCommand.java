@@ -17,7 +17,7 @@ public class AttackCommand implements Command {
 	public void execute(Game game, String[] words, String directObject) {
 		Location location = game.getPlayerLocation();
 		if (location.getEntities().isEmpty()) {
-			System.out.println("Nobody to attack here.");
+			game.ui.output.println("Nobody to attack here.");
 		} else {
 			TextCombatManager.playerAttacks(game, game.getPlayer(), location);
 		}		

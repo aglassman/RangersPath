@@ -22,14 +22,14 @@ public class HuntManager {
 		
 		double dice = Math.random();
 		if (dice >= 0.5) {
-			System.out.println("You caught nothing.");
+			game.ui.output.println("You caught nothing.");
 		} else {
 			Carcass carcass;
 			if (dice >= 0.2)
 				carcass = getRabbit();
 			else
 				carcass = getDeer();
-			System.out.println("You caught a " + carcass.getAnimalName().toLowerCase() + ".");
+			game.ui.output.println("You caught a " + carcass.getAnimalName().toLowerCase() + ".");
 			game.getPlayer().getInventory().addItem(carcass);
 		}
 	}

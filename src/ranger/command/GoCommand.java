@@ -1,7 +1,6 @@
 package ranger.command;
 
 import ranger.Game;
-import ranger.Output;
 import ranger.map.Direction;
 import ranger.map.Location;
 import ranger.name.Name.NameType;
@@ -20,10 +19,10 @@ public class GoCommand implements Command {
 			if (game.getRegion().getValidDirections(current).contains(direction)) {
 				game.movePlayer(direction);
 			} else {
-				Output.println("You can't go %s.", direction, NameType.INDEFINITE);
+				game.ui.output.println("You can't go %s.", direction, NameType.INDEFINITE);
 			}
 		} catch (IllegalArgumentException e) {
-			System.out.println("You can't go that way.");
+			game.ui.output.println("You can't go that way.");
 		}
 	}
 

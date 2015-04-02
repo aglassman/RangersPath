@@ -1,6 +1,8 @@
 package ranger.tilegame.entity.task;
 
+import game.engine.io.UserInterface;
 import jmotion.tilegame.model.Physical;
+import ranger.Game;
 import ranger.tilegame.PhysicalItem;
 import ranger.tilegame.entity.Arrow;
 import ranger.tilegame.entity.PhysicalEntity;
@@ -40,16 +42,18 @@ public class PlayerControlTask extends EntityTask {
 
                 // Give the item to the player
                 player.entity.getInventory().addItem(item.item);
-                System.out.println("Player collected " + item.item);
+                ui.output.println("Player collected " + item.item);
             }
         }
     }
 
-    public PlayerControlTask(PhysicalEntity player) {
+    public PlayerControlTask(UserInterface ui, PhysicalEntity player) {
+    	this.ui = ui;
         this.player = player;
         player.setTask(this);
     }
 
+    private UserInterface ui;
     private PhysicalEntity player;
     private boolean willAttack;
     private int dx;

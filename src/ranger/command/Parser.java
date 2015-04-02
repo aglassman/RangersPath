@@ -24,7 +24,7 @@ public class Parser {
 			
 			keywords.get(words[0]).execute(game, words, directObject);
 		} else {
-			System.out.println("You can't do that.");
+			game.ui.output.println("You can't do that.");
 		}
 	}
 	
@@ -60,15 +60,15 @@ public class Parser {
 			}
 
 			public void execute(Game game, String[] words, String directObject) {
-				System.out.println("Legal commands are:");
+				game.ui.output.println("Legal commands are:");
 				for (String s : keywords.keySet()) {
-					System.out.println(s);
-					System.out.println("\t" + keywords.get(s).getHelpText());
+					game.ui.output.println(s);
+					game.ui.output.println("\t" + keywords.get(s).getHelpText());
 				}
 			}
 		});
 	}
 	
-	private Game game;
+	private final Game game;
 	private SortedMap<String, Command> keywords;
 }

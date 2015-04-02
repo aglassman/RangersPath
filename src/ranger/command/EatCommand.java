@@ -20,13 +20,13 @@ public class EatCommand implements Command {
 		Inventory invent = game.getPlayer().getInventory();
 		Item item = invent.getItem(directObject);
 		if (item == null) {
-			System.out.println("You don't have any of that.");
+			game.ui.output.println("You don't have any of that.");
 		} else if (item instanceof Food) {
 			Food food = (Food)item;
 			invent.expend(food);
 			game.getPlayer().addFoodValue(food.getFoodValue());
 		} else {
-			System.out.println("You can't eat your " + directObject);
+			game.ui.output.println("You can't eat your " + directObject);
 		}
 	}
 

@@ -1,9 +1,13 @@
 package ranger;
 
+import game.engine.ThreadedGameEngine;
+import game.engine.io.UserInterface;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import ranger.command.Parser;
 import ranger.entity.Entity;
 import ranger.hunting.HuntManager;
 import ranger.item.Food;
@@ -16,8 +20,26 @@ import ranger.map.Region;
 import ranger.name.Name;
 import ranger.name.Name.NameType;
 import ranger.time.Time;
+import ranger.ui.TestUI;
 
-public class Game {
+public class Game extends ThreadedGameEngine{
+	
+	
+	@Override
+	public void gameLoop() {
+		ui.output.print(">");
+		String command = ui.input.getInputBlocking();
+		parser.parse(command);
+		ui.output.println("");
+		testUI.repaint();
+	}
+
+
+	@Override
+	public void shutdown() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	public Time getTime() {
 		return time;
@@ -39,18 +61,18 @@ public class Game {
 		destination.addEntity(entity);
 		entity.setCurrentLocation(destination);
 		if (destination == player.getCurrentLocation()) {
-			Output.println("%s approached from the %s.", entity, NameType.INDEFINITE, direction.getOpposite(), NameType.INDEFINITE);
+			ui.output.println("%s approached from the %s.", entity, NameType.INDEFINITE, direction.getOpposite(), NameType.INDEFINITE);
 			TextCombatManager.fight(this, destination, entity, player);
 		}
 
 		if (source == player.getCurrentLocation())
-			Output.println("%s left, heading %s.", entity, NameType.INDEFINITE, direction, NameType.INDEFINITE);
+			ui.output.println("%s left, heading %s.", entity, NameType.INDEFINITE, direction, NameType.INDEFINITE);
 	}
 	
 	public void movePlayer(Direction direction) {
 		Location destination = region.getNeighbor(player.getCurrentLocation(), direction);
 		player.setCurrentLocation(destination);
-		Output.println("You travel %s and come to %s.", direction, NameType.INDEFINITE, destination, NameType.INDEFINITE);
+		ui.output.println("You travel %s and come to %s.", direction, NameType.INDEFINITE, destination, NameType.INDEFINITE);
 	}
 	
 	public Region getRegion() {
@@ -93,12 +115,17 @@ public class Game {
 		System.exit(0);
 	}
 	
-	public Game() {
+	@Override
+	public void startup() {
+		this.parser = new Parser(this);
+		
+		ui.output.clear();
+		
         long seed = 7222187291045797782L;//new Random().nextLong(); r
         Random random = new Random(seed);
         System.out.println("Game seed: " + seed);
 
-		time = new Time();
+		time = new Time(this);
 		player = new Player();
 
 		Weapon sword = new Weapon(new Name("great sword"), 100, 20);
@@ -121,8 +148,18 @@ public class Game {
 		
 		for (Entity e : entities)
 			time.scheduleEvent(e.getNextAction(this, time.getCurrentTime()));
+
+		this.testUI = new TestUI(this);
 	}
 	
+	public Game(UserInterface userInterface)
+	{
+		this.ui = userInterface;
+	}
+	
+	public final UserInterface ui;
+	private TestUI testUI;
+	private Parser parser;
 	private Time time;
 	private Player player;
 	private Region region;
